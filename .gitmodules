@@ -1,0 +1,3 @@
+[submodule "torch_kits"]
+	path = torch_kits
+	url = git@github.com:Sunburst7/torch_kits.git

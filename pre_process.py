@@ -5,7 +5,7 @@ import os
 import sys
 import pickle
 
-from utils.split_samples import split_samples
+from torch_kits.split_samples import split_samples
 
 ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
 NUM_CLASS = 14
