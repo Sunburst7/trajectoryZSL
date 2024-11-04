@@ -1,4 +1,5 @@
 import torch 
+import pickle
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 from typing import Tuple
@@ -19,3 +20,12 @@ class AisDataset(Dataset):
     
     def __str__(self) -> str:
         return f"samples length={len(self.X)}, a sample which is class_{self.Y[0]}: {self.X[0]}"
+    
+    def save(self, path) -> None:
+        with open(path, 'wb') as f: #保存为二进制文件
+            pickle.dump(self, f)
+    
+    @staticmethod
+    def load(path):
+        with open(path, 'rb') as f:
+            return pickle.load(f)

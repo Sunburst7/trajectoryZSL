@@ -13,6 +13,9 @@ ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
 NUM_CLASS = 14
 LNG_AND_LAT_THRESHOLD = 1
 NUM_SAMPLE_ROW = 100
+NUM_SAMPLE_FEATURES = 4
+RATIO = 0.7
+IS_GZSL = False
 SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
 UNSEEN_CLASS = [10]
 RANDOM_SEED = 42
@@ -115,10 +118,13 @@ def split_zsl_dataset(data: Dict[int, np.ndarray], seen_classes: List[int], unse
         print(valid_set)
         print(test_set)
     """
+    list_shape = list(data[0].shape)
+    list_shape[0] = 0
+    tuple_shape = tuple(list_shape)
     random.seed = RANDOM_SEED
-    train_x = valid_x = test_x = np.ndarray((0, 4))
+    train_x = valid_x = test_x = np.ndarray(tuple_shape)
     train_y = valid_y = test_y = np.ndarray((0), dtype=int)
-    all_seen_x = all_unseen_x = np.ndarray((0, 4))
+    all_seen_x = all_unseen_x = np.ndarray(tuple_shape)
     all_seen_y = all_unseen_y = np.ndarray((0), dtype=int)
     for seen_cls_id in seen_classes:
         all_seen_x = np.vstack((all_seen_x, data[seen_cls_id]))
@@ -170,18 +176,23 @@ for i in pbar:
 
     arr = np.array(arr)
     processed_data[i] = arr
-    pbar.set_description_str(desc=f"正在处理第{i}类，共{len(arr)}个样本", refresh=True)
-    # 保存为二进制文件
-    # with open(os.path.join(ROOT_DATA_PATH, f'np_class_{i}.pkl'), 'wb') as f: # List[ndarray]保存为二进制文件
-    #     pickle.dump(arr, f)
+    pbar.set_description_str(desc=f"正在处理第{i}类，共{len(arr)}个样本, shape={arr.shape}", refresh=True)
 
-train_set, valid_set, test_set = split_zsl_dataset(processed_data, SEEN_CLASS, UNSEEN_CLASS, 0.7, False)
 
-# 读取示例
-# with open(os.path.join(ROOT_DATA_PATH, f'np_class_0.pkl'), 'rb') as f:
-#     loaded_array_list = pickle.load(f)
-#     print(len(loaded_array_list))
-#     print(loaded_array_list[21])
+train_set, valid_set, test_set = split_zsl_dataset(processed_data, SEEN_CLASS, UNSEEN_CLASS, RATIO, IS_GZSL)
+train_filepath = os.path.join(ROOT_DATA_PATH, f'train_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+test_filepath = os.path.join(ROOT_DATA_PATH, f'test_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+# 保存为二进制文件
+train_set.save(train_filepath) 
+train_set = AisDataset.load(train_filepath)
+print(f"train: {train_set}")
+valid_set.save(valid_filepath)
+valid_set = AisDataset.load(valid_filepath)
+print(f"valid: {valid_set}")
+test_set.save(test_filepath)
+test_set = AisDataset.load(test_filepath)
+print(f"test : {test_set}")
 
 
 
