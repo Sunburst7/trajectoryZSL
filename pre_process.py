@@ -12,9 +12,10 @@ from ais_dataset import AisDataset
 ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
 NUM_CLASS = 14
 LNG_AND_LAT_THRESHOLD = 1
-NUM_SAMPLE_ROW = 100
+NUM_SAMPLE_ROW = 1024
 NUM_SAMPLE_FEATURES = 4
 RATIO = 0.7
+USE_COMPLEX = True
 IS_GZSL = False
 SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
 UNSEEN_CLASS = [10]
@@ -121,7 +122,7 @@ def split_zsl_dataset(data: Dict[int, np.ndarray], seen_classes: List[int], unse
     list_shape = list(data[0].shape)
     list_shape[0] = 0
     tuple_shape = tuple(list_shape)
-    random.seed = RANDOM_SEED
+    random.seed(42)
     train_x = valid_x = test_x = np.ndarray(tuple_shape)
     train_y = valid_y = test_y = np.ndarray((0), dtype=int)
     all_seen_x = all_unseen_x = np.ndarray(tuple_shape)
@@ -172,7 +173,12 @@ for i in pbar:
         for sid, group in grouped:
             np_data = group.drop(columns=['segment', 'time']).to_numpy()
             # 对于不足NUM_SAMPLE_ROW的样本使用最后一个经纬度值，速度航向为0填充到NUM_SAMPLE_ROW
-            arr.append(ais_pad_with_tail(np_data, NUM_SAMPLE_ROW) if np_data.shape[0] < NUM_SAMPLE_ROW else np_data)
+            pad_np_data = ais_pad_with_tail(np_data, NUM_SAMPLE_ROW) if np_data.shape[0] < NUM_SAMPLE_ROW else np_data
+            if USE_COMPLEX == True:
+                complex_pad_np_data = np.ndarray((pad_np_data.shape[0], 2), dtype=complex)
+                complex_pad_np_data[:, 0] = pad_np_data[:, 0] + 1j * pad_np_data[:, 1]
+                complex_pad_np_data[:, 1] = pad_np_data[:, 2] + 1j * pad_np_data[:, 3]
+                arr.append()
 
     arr = np.array(arr)
     processed_data[i] = arr
@@ -180,9 +186,9 @@ for i in pbar:
 
 
 train_set, valid_set, test_set = split_zsl_dataset(processed_data, SEEN_CLASS, UNSEEN_CLASS, RATIO, IS_GZSL)
-train_filepath = os.path.join(ROOT_DATA_PATH, f'train_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
-valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
-test_filepath = os.path.join(ROOT_DATA_PATH, f'test_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+train_filepath = os.path.join(ROOT_DATA_PATH, f'train_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+test_filepath = os.path.join(ROOT_DATA_PATH, f'test_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
 # 保存为二进制文件
 train_set.save(train_filepath) 
 train_set = AisDataset.load(train_filepath)
