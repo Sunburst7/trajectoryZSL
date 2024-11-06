@@ -15,7 +15,7 @@ LNG_AND_LAT_THRESHOLD = 1
 NUM_SAMPLE_ROW = 1024
 NUM_SAMPLE_FEATURES = 4
 RATIO = 0.7
-USE_COMPLEX = True
+USE_COMPLEX = False
 IS_GZSL = False
 SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
 UNSEEN_CLASS = [10]
@@ -171,14 +171,16 @@ for i in pbar:
         grouped = split_samples(raw_data[i][j], NUM_SAMPLE_ROW, {"lng" : 1, "lat" : 1}).groupby('segment')
         # 获取分组后的 DataFrame
         for sid, group in grouped:
-            np_data = group.drop(columns=['segment', 'time']).to_numpy()
+            np_data = group.drop(columns=['segment', 'time']).to_numpy(dtype=np.float32)
             # 对于不足NUM_SAMPLE_ROW的样本使用最后一个经纬度值，速度航向为0填充到NUM_SAMPLE_ROW
             pad_np_data = ais_pad_with_tail(np_data, NUM_SAMPLE_ROW) if np_data.shape[0] < NUM_SAMPLE_ROW else np_data
             if USE_COMPLEX == True:
                 complex_pad_np_data = np.ndarray((pad_np_data.shape[0], 2), dtype=complex)
                 complex_pad_np_data[:, 0] = pad_np_data[:, 0] + 1j * pad_np_data[:, 1]
                 complex_pad_np_data[:, 1] = pad_np_data[:, 2] + 1j * pad_np_data[:, 3]
-                arr.append()
+                arr.append(complex_pad_np_data)
+            else:
+                arr.append(pad_np_data)
 
     arr = np.array(arr)
     processed_data[i] = arr

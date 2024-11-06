@@ -2,12 +2,16 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data as Data
+import torchvision
 import random 
 import os
+import numpy as np
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 from ais_dataset import AisDataset
 from model.simple_transformer import SimpleTransformer
+from model.simple_cnn import SimpleCNN
 
 random.seed(42)
 ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
@@ -35,14 +39,50 @@ encoder_layer_num = 6
 features_dim = 128
 device = [i for i in range(torch.cuda.device_count())]
 
-model = torch.nn.DataParallel(
-    SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS), device_ids=device)
+# model = SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS)
+model = SimpleCNN().to(device[0])
+model = torch.nn.DataParallel(model, device_ids=device)
 criterion = nn.CrossEntropyLoss()  # cross entropy loss
 optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd) # model optimizer
 
 def create_dataloader(path, batch_size):
     dataset = AisDataset.load(path)
     return Data.DataLoader(dataset, batch_size=batch_size)
+
+def draw_and_save(img_vector: np.ndarray, path):
+    plt.figure(figsize=(15, 6))
+    plt.subplot(1, 3, 1)
+    plt.imshow(img_vector[:, :, 0], aspect='auto', origin='lower')
+    plt.colorbar(label='Magnitude')
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Time (s)')
+
+    plt.subplot(1, 3, 2)
+    plt.imshow(img_vector[:, :, 1], aspect='auto', origin='lower')
+    plt.colorbar(label='Magnitude')
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Time (s)')
+
+    plt.subplot(1, 3, 3)
+    plt.imshow(img_vector[:, :, 0] + img_vector[:, :, 1], aspect='auto', origin='lower')
+    plt.colorbar(label='Magnitude')
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Time (s)')
+    plt.savefig(path)
+    plt.close()
+
+def bacth_STFT(x: torch.Tensor, n_fft, hop_len, win_len, window:torch.Tensor, verbose:bool=False):
+    # x [bs, seq_len, feature_dim]
+    x = x.permute(0, 2, 1) # x [bs, feature_dim, seq_len]
+    x_ = []
+    for i, single_sample in enumerate(x):
+        stft_sample = torch.stft(single_sample, n_fft, hop_len, win_len, window, normalized=True, return_complex=False)[:, :-1, :-1, :]
+        stft_sample = torch.cat((stft_sample[:, :, :, 0], stft_sample[:, :, :, 1]))
+        if verbose == True:
+            for j, time_freq_matrix in enumerate(torch.view_as_real(stft_sample)):
+                draw_and_save(time_freq_matrix.cpu().numpy(), f"./temp/sample_{i}_features_{j}_.png")
+        x_.append(stft_sample)
+    return torch.stack(x_)
 
 train_filepath = os.path.join(ROOT_DATA_PATH, f'train_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
 valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
@@ -57,10 +97,10 @@ def run_epoch(model, loader, is_train:bool):
         pbar = tqdm(enumerate(loader), total=len(loader)) if is_train else enumerate(loader)
         for i, (x, y) in pbar:
             x = x.to(device[0])
-            x = torch.stft(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window, return_complex=False)
+            x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(device[0]))
             y = y.to(device[0])
-            print(x.shape)
-            print(x)
+            print(x.shape, x.dtype)
+            model(x)
             exit()
             
 

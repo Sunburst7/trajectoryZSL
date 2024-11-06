@@ -12,7 +12,6 @@ class SimpleTransformer(nn.Module):
 
     def forward(self, x):
         x = x.permute(1, 0, 2)  # Rearrange input to [seq_length, batch_size, feature_dim]
-        
         x = self.embedding(x)
         x = self.transformer_encoder(x)
         x = x.mean(dim=0)  # Aggregate over the sequence

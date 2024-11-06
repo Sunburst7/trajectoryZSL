@@ -13,7 +13,7 @@ class AisDataset(Dataset):
         self.Y = Y
 
     def __getitem__(self, index):
-        return torch.tensor(self.X[index]), torch.tensor(self.Y[index])
+        return torch.tensor(self.X[index], dtype=torch.float32), torch.tensor(self.Y[index], dtype=torch.float32)
     
     def __len__(self):
         return len(self.X)
