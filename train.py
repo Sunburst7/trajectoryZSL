@@ -19,8 +19,8 @@ NUM_CLASS = 14
 LNG_AND_LAT_THRESHOLD = 1
 NUM_SAMPLE_ROW = 1024
 # stft参数
-N_FFT = 64
-WINDOM_LENGTH = 64
+N_FFT = 128
+WINDOM_LENGTH = 128
 HOP_LENGTH = 16
 WINDOW_FUNCTION = "Hamming"
 NUM_SAMPLE_FEATURES = 4
@@ -40,7 +40,7 @@ features_dim = 128
 device = [i for i in range(torch.cuda.device_count())]
 
 # model = SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS)
-model = SimpleCNN().to(device[0])
+model = SimpleCNN(num_class=NUM_CLASS).to(device[0])
 model = torch.nn.DataParallel(model, device_ids=device)
 criterion = nn.CrossEntropyLoss()  # cross entropy loss
 optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd) # model optimizer
@@ -51,23 +51,12 @@ def create_dataloader(path, batch_size):
 
 def draw_and_save(img_vector: np.ndarray, path):
     plt.figure(figsize=(15, 6))
-    plt.subplot(1, 3, 1)
-    plt.imshow(img_vector[:, :, 0], aspect='auto', origin='lower')
+    plt.subplot(1, 2, 1)
+    plt.imshow(img_vector, aspect='auto', origin='lower')
     plt.colorbar(label='Magnitude')
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Time (s)')
 
-    plt.subplot(1, 3, 2)
-    plt.imshow(img_vector[:, :, 1], aspect='auto', origin='lower')
-    plt.colorbar(label='Magnitude')
-    plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Time (s)')
-
-    plt.subplot(1, 3, 3)
-    plt.imshow(img_vector[:, :, 0] + img_vector[:, :, 1], aspect='auto', origin='lower')
-    plt.colorbar(label='Magnitude')
-    plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Time (s)')
     plt.savefig(path)
     plt.close()
 
@@ -76,10 +65,10 @@ def bacth_STFT(x: torch.Tensor, n_fft, hop_len, win_len, window:torch.Tensor, ve
     x = x.permute(0, 2, 1) # x [bs, feature_dim, seq_len]
     x_ = []
     for i, single_sample in enumerate(x):
-        stft_sample = torch.stft(single_sample, n_fft, hop_len, win_len, window, normalized=True, return_complex=False)[:, :-1, :-1, :]
-        stft_sample = torch.cat((stft_sample[:, :, :, 0], stft_sample[:, :, :, 1]))
+        stft_sample = torch.stft(single_sample, n_fft, hop_len, win_len, window, normalized=True, return_complex=True)[:, :-1, :-1]
+        stft_sample = torch.cat((torch.view_as_real(stft_sample)[:, :, :, 0], torch.view_as_real(stft_sample)[:, :, :, 1]))
         if verbose == True:
-            for j, time_freq_matrix in enumerate(torch.view_as_real(stft_sample)):
+            for j, time_freq_matrix in enumerate(stft_sample):
                 draw_and_save(time_freq_matrix.cpu().numpy(), f"./temp/sample_{i}_features_{j}_.png")
         x_.append(stft_sample)
     return torch.stack(x_)
@@ -97,10 +86,11 @@ def run_epoch(model, loader, is_train:bool):
         pbar = tqdm(enumerate(loader), total=len(loader)) if is_train else enumerate(loader)
         for i, (x, y) in pbar:
             x = x.to(device[0])
-            x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(device[0]))
-            y = y.to(device[0])
-            print(x.shape, x.dtype)
-            model(x)
+            x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(device[0]), verbose=True)
+            y = y.type(torch.LongTensor).to(device[0])
+            logits = model(x)
+            loss_1 = criterion(logits, y)
+            print(loss_1)
             exit()
             
 
