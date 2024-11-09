@@ -44,7 +44,6 @@ class SimpleCNN(nn.Module):
         )
 
     def forward(self, x):
-        print(x.shape, x.dtype)
         x1 = self.DCL_1(x)
         x2 = self.DCL_2(x)
         x3 = self.DCL_3(x)
