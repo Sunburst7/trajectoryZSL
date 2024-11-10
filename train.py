@@ -12,27 +12,34 @@ from tqdm import tqdm
 from ais_dataset import AisDataset
 from model.simple_transformer import SimpleTransformer
 from model.simple_cnn import SimpleCNN
+from loss.center_loss import CenterLoss
+from loss.margin_loss import MarginLoss
 
-random.seed(42)
+# dataset 参数
 ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
 ROOT_PROJECT_PATH = os.path.join('/data2', 'hh', 'workspace', 'trajectoryZSL')
 NUM_CLASS = 14
 LNG_AND_LAT_THRESHOLD = 1
 NUM_SAMPLE_ROW = 1024
+RATIO = 0.7
+IS_GZSL = False
+SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
+UNSEEN_CLASS = [10]
 # stft参数
 N_FFT = 128
 WINDOM_LENGTH = 128
 HOP_LENGTH = 16
 WINDOW_FUNCTION = "Hamming"
 NUM_SAMPLE_FEATURES = 4
-RATIO = 0.7
-IS_GZSL = False
-SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
-UNSEEN_CLASS = [10]
+
+# 模型超参数
 RANDOM_SEED = 42
+MARGIN = 128
+eta_cent = 5e-3
+eta_cls = 1
+eta_margin = 1e-1
 
 num_epoch = 10
-num_class = 14
 batch_size = 16
 learning_rate = 1e-2
 wd = 0
@@ -41,10 +48,13 @@ features_dim = 128
 DEVICES = [i for i in range(torch.cuda.device_count())]
 
 # model = SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS)
-model = SimpleCNN(num_class=NUM_CLASS).to(DEVICES[0])
+model = SimpleCNN(num_class=NUM_CLASS, features_dim=features_dim).to(DEVICES[0])
 model = torch.nn.DataParallel(model, device_ids=DEVICES)
-criterion = nn.CrossEntropyLoss()  # cross entropy loss
+criterion_cls = nn.CrossEntropyLoss()  # cross entropy loss
+criterion_cent = CenterLoss(num_classes=NUM_CLASS, feat_dim=features_dim)
+criterion_margin = MarginLoss(MARGIN, num_classes=NUM_CLASS, feat_dim=features_dim, centers=criterion_cent.get_centers())
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=wd) # model optimizer
+optimizer_cent = optim.SGD(criterion_cent.parameters(), lr=0.1)
 
 def create_dataloader(path, batch_size):
     dataset = AisDataset.load(path)
@@ -102,18 +112,25 @@ class Trainer:
             x = x.to(devices[0])
             x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(devices[0]), verbose=False)
             y = y.type(torch.LongTensor).to(devices[0])
-            logits = model(x)
-            loss_classify = criterion(logits, y)
+            features, logits = model(x)
+            loss_cls = criterion_cls(logits, y)
+            loss_cent = criterion_cent(features, y)
+            loss_margin = criterion_margin(features, y)
+            optimizer.zero_grad()
+            optimizer_cent.zero_grad()
+            loss = loss_cls * eta_cls + loss_cent * eta_cent + loss_margin * eta_margin
             num_total += x.shape[0]
             num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
             if is_train:
-                model.zero_grad()
-                loss_classify.backward()
+                loss.backward()
                 # torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                 optimizer.step()
-                pbar.set_description(f"Training... epoch {epoch + 1} iter {i}: loss {loss_classify.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
+                for param in criterion_cent.parameters():
+                    param.grad.data *= (1. / eta_cent) # multiple (1./alpha) in order to remove the effect of alpha on updating centers
+                optimizer_cent.step()
+                pbar.set_description(f"epoch {epoch + 1} Training... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
             else:
-                pbar.set_description(f"Testing.... iter {i}: loss {loss_classify.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch + 1} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
 
 
     def train(self):
