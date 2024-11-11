@@ -8,12 +8,14 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+from typing import Dict
 
 from ais_dataset import AisDataset
 from model.simple_transformer import SimpleTransformer
 from model.simple_cnn import SimpleCNN
 from loss.center_loss import CenterLoss
 from loss.margin_loss import MarginLoss
+from mahalanobis import MahalanobisLayer
 
 # dataset 参数
 ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
@@ -39,7 +41,7 @@ eta_cent = 5e-3
 eta_cls = 1
 eta_margin = 1e-1
 
-num_epoch = 10
+num_epoch = 5
 batch_size = 16
 learning_rate = 1e-2
 wd = 0
@@ -84,6 +86,7 @@ def bacth_STFT(x: torch.Tensor, n_fft, hop_len, win_len, window:torch.Tensor, ve
         x_.append(stft_sample)
     return torch.stack(x_)
 
+
 train_filepath = os.path.join(ROOT_DATA_PATH, f'train_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
 valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
 test_filepath = os.path.join(ROOT_DATA_PATH, f'test_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
@@ -100,6 +103,48 @@ class Trainer:
         self.savedir = savedir
         self.devices = devices
         self.model = model.to(devices[0])
+        self.known_thresholds:Dict[int, torch.Tensor] = {known_class : 0 for known_class in SEEN_CLASS} # 可见类的距离阈值
+        self.distances:Dict[int, list] = {known_class : [] for known_class in SEEN_CLASS} # 每个可见类对应样本到聚类中心的距离
+        self.maha = MahalanobisLayer(features_dim, decay=0.99)
+    
+    def update_thresholds(self):
+        distances = {k : torch.stack(v) for (k, v) in self.distances.items()} # distances[i] = (num_samples, num_class, 1)
+        distances_std = {k : torch.std(v, dim=0) for (k, v) in distances.items()}
+        for (cls_id, distance) in distances.items():
+            distances[cls_id] = distance.squeeze(dim=1).sort(descending=True)[0]
+            not_outlier_index = torch.where(distances[cls_id] < 3 * distances_std[cls_id])[0][0].item()
+            self.known_thresholds[cls_id] = distances[cls_id][not_outlier_index]
+
+    def calculate_distance(self, centers: nn.Parameter, feature: torch.Tensor) -> torch.Tensor:
+        """计算特征向量到所有聚类中心的马氏距离
+
+        Args:
+            centers (nn.Parameter): 聚类中心向量 [num_class, features_dim]
+            feature (torch.Tensor): 特征向量 [1, features_dim]
+
+        Returns:
+            torch.Tensor: 特征向量到每个聚类中心的马氏距离 [num_class(seen), 1]
+        """
+        return torch.stack([self.maha(feature, center) for center in centers])
+    
+    def dist_clearing(self):
+        for saving_list in self.distances.values():
+            saving_list.clear()
+
+    def batch_dist_saving(self, centers: nn.Parameter, features: torch.Tensor, labels: torch.Tensor):
+        for bid in range(features.shape[0]):
+            true_label = labels[bid].item()
+            self.distances[true_label].append(self.calculate_distance(centers, features[bid])[true_label])
+
+    def semantic_classify(self, centers: nn.Parameter, features: torch.Tensor, is_train:bool=False, labels: torch.Tensor=None):
+        """根据聚类中心分类
+        
+        
+        Args:
+            centers (nn.Parameter): 
+            features (torch.Tensor): 
+        """
+        pass
 
     
     def run_epoch(self, model, loader, epoch:int, is_train:bool):
@@ -122,6 +167,7 @@ class Trainer:
             num_total += x.shape[0]
             num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
             if is_train:
+                self.batch_dist_saving(criterion_cent.get_centers(), features, y)
                 loss.backward()
                 # torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                 optimizer.step()
@@ -130,8 +176,13 @@ class Trainer:
                 optimizer_cent.step()
                 pbar.set_description(f"epoch {epoch + 1} Training... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
             else:
+                self.semantic_classify(criterion_cent.get_centers(), features)
                 pbar.set_description(f"epoch {epoch + 1} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
 
+        if is_train:
+            # 每个epoch更新已知类的阈值，清空保存的距离（聚类中心更新需要重新计算）
+            self.update_thresholds()
+            self.dist_clearing()
 
     def train(self):
         epoch_pbar = tqdm(range(num_epoch), desc=f"开始训练")
@@ -152,5 +203,6 @@ if __name__ == '__main__':
     # print(f"Model size: {get_model_size(model.module):.4f}MB")
     t = Trainer(model, train_loader, valid_loader, test_loader, None, savedir=None, devices=DEVICES)
     t.train()
+    print(t.known_thresholds)
     t.test()
 
