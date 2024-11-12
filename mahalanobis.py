@@ -68,7 +68,7 @@ class MahalanobisLayer(nn.Module):
         Calculates the squared Mahalanobis distance between x and x_fit
         """
         delta = x - x_fit
-        m = torch.matmul(torch.matmul(delta, self.S_inv), delta.t())
+        m = torch.sqrt(torch.matmul(torch.matmul(delta, self.S_inv), delta.t()))
         if m.dim() == 0:
             return torch.squeeze(torch.diag(m.unsqueeze(0)), dim=0)
         else:

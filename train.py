@@ -108,15 +108,21 @@ class Trainer:
         self.maha = MahalanobisLayer(features_dim, decay=0.99)
     
     def update_thresholds(self):
-        distances = {k : torch.stack(v) for (k, v) in self.distances.items()} # distances[i] = (num_samples, num_class, 1)
-        distances_std = {k : torch.std(v, dim=0) for (k, v) in distances.items()}
+        distances = {k : torch.stack(v).squeeze(dim=1) for (k, v) in self.distances.items()} # self.distances[i] = (num_samples, num_class, 1)
+        distances_std = {k : torch.std(v, dim=0) for (k, v) in distances.items()} # distances[i] = (num_samples, num_class)
         for (cls_id, distance) in distances.items():
-            distances[cls_id] = distance.squeeze(dim=1).sort(descending=True)[0]
-            not_outlier_index = torch.where(distances[cls_id] < 3 * distances_std[cls_id])[0][0].item()
-            self.known_thresholds[cls_id] = distances[cls_id][not_outlier_index]
+            distances[cls_id] = torch.sort(distance, dim=0)[0]
+            # 3-sigma
+            # outlier_indics = torch.where(distances[cls_id] >= 3 * distances_std[cls_id])[0]
+            # outlier_index = outlier_indics[0].item()
+            # print(f"{cls_id}: {outlier_index}th value={distances[cls_id][outlier_index]}")
+            # self.known_thresholds[cls_id] = distances[cls_id][outlier_index]
+            # 分位数
+            self.known_thresholds[cls_id] =  distances[cls_id][int(0.95 * distances[cls_id].shape[0])]
+            print(f"{cls_id}: threshold value={self.known_thresholds[cls_id]}")
 
     def calculate_distance(self, centers: nn.Parameter, feature: torch.Tensor) -> torch.Tensor:
-        """计算特征向量到所有聚类中心的马氏距离
+        """计算特征向量到所有聚类中心的平方马氏距离
 
         Args:
             centers (nn.Parameter): 聚类中心向量 [num_class, features_dim]
@@ -138,7 +144,6 @@ class Trainer:
 
     def semantic_classify(self, centers: nn.Parameter, features: torch.Tensor, is_train:bool=False, labels: torch.Tensor=None):
         """根据聚类中心分类
-        
         
         Args:
             centers (nn.Parameter): 
