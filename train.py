@@ -16,6 +16,7 @@ from model.simple_cnn import SimpleCNN
 from loss.center_loss import CenterLoss
 from loss.margin_loss import MarginLoss
 from mahalanobis import MahalanobisLayer
+from tsne import Tsne
 
 # dataset 参数
 ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
@@ -106,6 +107,7 @@ class Trainer:
         self.known_thresholds:Dict[int, torch.Tensor] = {known_class : 0 for known_class in SEEN_CLASS} # 可见类的距离阈值
         self.distances:Dict[int, list] = {known_class : [] for known_class in SEEN_CLASS} # 每个可见类对应样本到聚类中心的距离
         self.maha = MahalanobisLayer(features_dim, decay=0.99)
+        self.tsne = Tsne(feature_dim=features_dim, num_class=NUM_CLASS)
     
     def update_thresholds(self):
         distances = {k : torch.stack(v).squeeze(dim=1) for (k, v) in self.distances.items()} # self.distances[i] = (num_samples, num_class, 1)
@@ -119,7 +121,7 @@ class Trainer:
             # self.known_thresholds[cls_id] = distances[cls_id][outlier_index]
             # 分位数
             self.known_thresholds[cls_id] =  distances[cls_id][int(0.95 * distances[cls_id].shape[0])]
-            print(f"{cls_id}: threshold value={self.known_thresholds[cls_id]}")
+            # print(f"{cls_id}: threshold value={self.known_thresholds[cls_id]}")
 
     def calculate_distance(self, centers: nn.Parameter, feature: torch.Tensor) -> torch.Tensor:
         """计算特征向量到所有聚类中心的平方马氏距离
@@ -141,15 +143,32 @@ class Trainer:
         for bid in range(features.shape[0]):
             true_label = labels[bid].item()
             self.distances[true_label].append(self.calculate_distance(centers, features[bid])[true_label])
+    
+    def semantic_classify(self, centers: nn.Parameter, features: torch.Tensor):
+        """计算批样本对每个已知类的聚类中心的距离
 
-    def semantic_classify(self, centers: nn.Parameter, features: torch.Tensor, is_train:bool=False, labels: torch.Tensor=None):
-        """根据聚类中心分类
-        
         Args:
-            centers (nn.Parameter): 
-            features (torch.Tensor): 
+            centers (nn.Parameter): _description_
+            features (torch.Tensor): _description_
+
+        Returns:
+            torch.Tensor: 预测的标签
         """
-        pass
+        results = []
+        for bid in range(features.shape[0]):
+            predict_label = -1
+            min_dist = float('inf')
+            if_know = False
+            dists = self.calculate_distance(centers, features[bid])
+            for certain_label in SEEN_CLASS:
+                if dists[certain_label] < self.known_thresholds[certain_label]:
+                    if_know = True
+                if dists[certain_label]< min_dist:
+                    min_dist = dists[certain_label]
+                    predict_label = certain_label
+
+            results.append(predict_label)
+        return torch.Tensor(results).cuda()
 
     
     def run_epoch(self, model, loader, epoch:int, is_train:bool):
@@ -163,6 +182,7 @@ class Trainer:
             x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(devices[0]), verbose=False)
             y = y.type(torch.LongTensor).to(devices[0])
             features, logits = model(x)
+            self.tsne.append(features.detach().cpu().numpy(), y.detach().cpu().numpy()) # 保存训练/测试样本准备t-sne
             loss_cls = criterion_cls(logits, y)
             loss_cent = criterion_cent(features, y)
             loss_margin = criterion_margin(features, y)
@@ -170,8 +190,8 @@ class Trainer:
             optimizer_cent.zero_grad()
             loss = loss_cls * eta_cls + loss_cent * eta_cent + loss_margin * eta_margin
             num_total += x.shape[0]
-            num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
             if is_train:
+                num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
                 self.batch_dist_saving(criterion_cent.get_centers(), features, y)
                 loss.backward()
                 # torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -181,10 +201,16 @@ class Trainer:
                 optimizer_cent.step()
                 pbar.set_description(f"epoch {epoch + 1} Training... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
             else:
-                self.semantic_classify(criterion_cent.get_centers(), features)
+                predict_labels = self.semantic_classify(criterion_cent.get_centers(), features)
+                # TODO: 目前是单未知类的替换
+                predict_labels = torch.where(predict_labels == -1, UNSEEN_CLASS[0], predict_labels)
+                num_correct += torch.sum(predict_labels == y)
                 pbar.set_description(f"epoch {epoch + 1} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
 
         if is_train:
+            self.tsne.append(criterion_cent.get_centers().detach().cpu().numpy(), np.arange(NUM_CLASS))
+            self.tsne.cal_and_save(os.path.join(ROOT_PROJECT_PATH, "temp", f"epoch_{epoch}_tsne.png"))
+            self.tsne.clear()
             # 每个epoch更新已知类的阈值，清空保存的距离（聚类中心更新需要重新计算）
             self.update_thresholds()
             self.dist_clearing()
@@ -208,6 +234,5 @@ if __name__ == '__main__':
     # print(f"Model size: {get_model_size(model.module):.4f}MB")
     t = Trainer(model, train_loader, valid_loader, test_loader, None, savedir=None, devices=DEVICES)
     t.train()
-    print(t.known_thresholds)
     t.test()
 
