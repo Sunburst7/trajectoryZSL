@@ -4,13 +4,14 @@ import torch.optim as optim
 import torch.utils.data as Data
 import torchvision
 import random 
+import math
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from typing import Dict
 
-from ais_dataset import AisDataset
+from ais_dataset import AisDataReader
 from model.simple_transformer import SimpleTransformer
 from model.simple_cnn import SimpleCNN
 from loss.center_loss import CenterLoss
@@ -23,31 +24,30 @@ ROOT_DATA_PATH = os.path.join('/data2', 'hh', 'workspace', 'data', 'ais')
 ROOT_PROJECT_PATH = os.path.join('/data2', 'hh', 'workspace', 'trajectoryZSL')
 NUM_CLASS = 14
 LNG_AND_LAT_THRESHOLD = 1
-NUM_SAMPLE_ROW = 1024
+NUM_SEQ_LEN = 1024
 RATIO = 0.7
 IS_GZSL = False
 SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
 UNSEEN_CLASS = [10]
 # stft参数
-N_FFT = 128
-WINDOM_LENGTH = 128
-HOP_LENGTH = 16
+N_FFT = WINDOM_LENGTH = 64
+HOP_LENGTH = 32
 WINDOW_FUNCTION = "Hamming"
 NUM_SAMPLE_FEATURES = 4
 
 # 模型超参数
-RANDOM_SEED = 42
-MARGIN = 128
-eta_cent = 5e-3
+RANDOM_SEED = 2024
+MARGIN = 48
+eta_cent = 5e-2
 eta_cls = 1
-eta_margin = 1e-1
+eta_margin = 0
 
-num_epoch = 5
-batch_size = 16
+num_epoch = 10
+batch_size = 8
 learning_rate = 1e-2
-wd = 0
+wd = 0.1
 encoder_layer_num = 6
-features_dim = 128
+features_dim = 32
 DEVICES = [i for i in range(torch.cuda.device_count())]
 
 # model = SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS)
@@ -60,7 +60,8 @@ optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=wd) # m
 optimizer_cent = optim.SGD(criterion_cent.parameters(), lr=0.1)
 
 def create_dataloader(path, batch_size):
-    dataset = AisDataset.load(path)
+    X, Y = AisDataReader.load_binary(path)
+    dataset = Data.TensorDataset(torch.Tensor(X).float(), torch.Tensor(Y).long())
     return Data.DataLoader(dataset, batch_size=batch_size)
 
 def draw_and_save(img_vector: np.ndarray, path):
@@ -88,9 +89,9 @@ def bacth_STFT(x: torch.Tensor, n_fft, hop_len, win_len, window:torch.Tensor, ve
     return torch.stack(x_)
 
 
-train_filepath = os.path.join(ROOT_DATA_PATH, f'train_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
-valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
-test_filepath = os.path.join(ROOT_DATA_PATH, f'test_seqLen_{NUM_SAMPLE_ROW}_ratio_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+train_filepath = os.path.join(ROOT_DATA_PATH, f'train_seqLen_{NUM_SEQ_LEN}_rate_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+valid_filepath = os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{NUM_SEQ_LEN}_rate_{RATIO}_isGZSL_{IS_GZSL}.pkl')
+test_filepath = os.path.join(ROOT_DATA_PATH, f'test_seqLen_{NUM_SEQ_LEN}_rate_{RATIO}_isGZSL_{IS_GZSL}.pkl')
 train_loader = create_dataloader(train_filepath, batch_size)
 valid_loader = create_dataloader(valid_filepath, batch_size)
 test_loader = create_dataloader(test_filepath, batch_size)
@@ -115,12 +116,12 @@ class Trainer:
         for (cls_id, distance) in distances.items():
             distances[cls_id] = torch.sort(distance, dim=0)[0]
             # 3-sigma
-            # outlier_indics = torch.where(distances[cls_id] >= 3 * distances_std[cls_id])[0]
-            # outlier_index = outlier_indics[0].item()
-            # print(f"{cls_id}: {outlier_index}th value={distances[cls_id][outlier_index]}")
-            # self.known_thresholds[cls_id] = distances[cls_id][outlier_index]
+            outlier_indics = torch.where(distances[cls_id] >= 3 * distances_std[cls_id])[0]
+            outlier_index = outlier_indics[0].item()
+            print(f"{cls_id}: {outlier_index}th value={distances[cls_id][outlier_index]}")
+            self.known_thresholds[cls_id] = distances[cls_id][outlier_index]
             # 分位数
-            self.known_thresholds[cls_id] =  distances[cls_id][int(0.95 * distances[cls_id].shape[0])]
+            # self.known_thresholds[cls_id] =  distances[cls_id][int(0.95 * distances[cls_id].shape[0])]
             # print(f"{cls_id}: threshold value={self.known_thresholds[cls_id]}")
 
     def calculate_distance(self, centers: nn.Parameter, feature: torch.Tensor) -> torch.Tensor:
@@ -163,7 +164,7 @@ class Trainer:
             for certain_label in SEEN_CLASS:
                 if dists[certain_label] < self.known_thresholds[certain_label]:
                     if_know = True
-                if dists[certain_label]< min_dist:
+                if dists[certain_label] < min_dist:
                     min_dist = dists[certain_label]
                     predict_label = certain_label
 
@@ -180,15 +181,15 @@ class Trainer:
         for i, (x, y) in pbar:
             x = x.to(devices[0])
             x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(devices[0]), verbose=False)
-            y = y.type(torch.LongTensor).to(devices[0])
+            y = y.to(devices[0])
             features, logits = model(x)
             self.tsne.append(features.detach().cpu().numpy(), y.detach().cpu().numpy()) # 保存训练/测试样本准备t-sne
             loss_cls = criterion_cls(logits, y)
             loss_cent = criterion_cent(features, y)
             loss_margin = criterion_margin(features, y)
+            loss = loss_cls * eta_cls + loss_cent * eta_cent + loss_margin * eta_margin
             optimizer.zero_grad()
             optimizer_cent.zero_grad()
-            loss = loss_cls * eta_cls + loss_cent * eta_cent + loss_margin * eta_margin
             num_total += x.shape[0]
             if is_train:
                 num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
@@ -199,13 +200,13 @@ class Trainer:
                 for param in criterion_cent.parameters():
                     param.grad.data *= (1. / eta_cent) # multiple (1./alpha) in order to remove the effect of alpha on updating centers
                 optimizer_cent.step()
-                pbar.set_description(f"epoch {epoch + 1} Training... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch} Training... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
             else:
                 predict_labels = self.semantic_classify(criterion_cent.get_centers(), features)
                 # TODO: 目前是单未知类的替换
                 predict_labels = torch.where(predict_labels == -1, UNSEEN_CLASS[0], predict_labels)
                 num_correct += torch.sum(predict_labels == y)
-                pbar.set_description(f"epoch {epoch + 1} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
 
         if is_train:
             self.tsne.append(criterion_cent.get_centers().detach().cpu().numpy(), np.arange(NUM_CLASS))
@@ -218,7 +219,7 @@ class Trainer:
     def train(self):
         epoch_pbar = tqdm(range(num_epoch), desc=f"开始训练")
         for epoch in epoch_pbar:
-            epoch_pbar.set_description(f"训练的第{epoch + 1}个epoch")
+            epoch_pbar.set_description(f"训练的第{epoch}个epoch")
             self.run_epoch(self.model, train_loader, epoch=epoch, is_train=True)
             self.run_epoch(self.model, valid_loader, 0 , is_train=False)
 

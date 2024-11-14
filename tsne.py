@@ -29,7 +29,7 @@ class Tsne():
 
         fig, ax = plt.subplots()
         ax.set_title('t-SNE process')
-        ax.scatter(result[:-self.num_class,0], result[:-self.num_class,1], c=self.label_array[:-self.num_class], s=10, cmap='rainbow')
-        ax.scatter(result[-self.num_class:,0], result[-self.num_class:,1], c=self.label_array[-self.num_class:], s=40, marker='*', cmap='rainbow')
+        ax.scatter(result[:-self.num_class,0], result[:-self.num_class,1], c=self.label_array[:-self.num_class], s=5, alpha=0.4, cmap='jet')
+        ax.scatter(result[-self.num_class:,0], result[-self.num_class:,1], c=self.label_array[-self.num_class:], s=50, marker='*', cmap='jet')
         plt.savefig(path)
         plt.close()

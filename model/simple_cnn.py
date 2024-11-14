@@ -23,33 +23,32 @@ class SimpleCNN(nn.Module):
             ConvLayer(24, 32, (3, 3), (1, 1), 1),
             nn.Flatten()
         )
-        self.DCL_2 = nn.Sequential(
-            ConvLayer(8, 16, (3, 3), (1, 1), 2),
-            ConvLayer(16, 24, (3, 3), (1, 1), 2),
-            ConvLayer(24, 32, (3, 3), (1, 1), 2),
-            nn.Flatten()
-        )
-        self.DCL_3 = nn.Sequential(
-            ConvLayer(8, 16, (3, 3), (1, 1), 3),
-            ConvLayer(16, 24, (3, 3), (1, 1), 3),
-            ConvLayer(24, 32, (3, 3), (1, 1), 3),
-            nn.Flatten()
-        )
+        # self.DCL_2 = nn.Sequential(
+        #     ConvLayer(8, 16, (3, 3), (1, 1), 2),
+        #     ConvLayer(16, 24, (3, 3), (1, 1), 2),
+        #     ConvLayer(24, 32, (3, 3), (1, 1), 2),
+        #     nn.Flatten()
+        # )
+        # self.DCL_3 = nn.Sequential(
+        #     ConvLayer(8, 16, (3, 3), (1, 1), 3),
+        #     ConvLayer(16, 24, (3, 3), (1, 1), 3),
+        #     ConvLayer(24, 32, (3, 3), (1, 1), 3),
+        #     nn.Flatten()
+        # )
         self.mlp = nn.Sequential(
-            nn.Linear(1792, 1024),
+            nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(1024, 512),
-            nn.ReLU(),
-            nn.Linear(512, features_dim),
+            nn.Linear(64, features_dim),
             nn.ReLU()
         )
         self.cls_head = nn.Linear(features_dim, num_class)
 
     def forward(self, x):
         x1 = self.DCL_1(x)
-        x2 = self.DCL_2(x)
-        x3 = self.DCL_3(x)
-        x = torch.hstack((x1, x2, x3))
+        # x2 = self.DCL_2(x)
+        # x3 = self.DCL_3(x)
+        # x = torch.hstack((x1, x2, x3))
+        x = x1
         features = self.mlp(x)
         cls_logits = self.cls_head(features)
         return features, cls_logits
