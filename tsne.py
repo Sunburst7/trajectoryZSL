@@ -4,10 +4,11 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
 class Tsne():
-    def __init__(self, feature_dim, num_class) -> None:
+    def __init__(self, feature_dim, num_class, seen_class) -> None:
         # t-SNE降维处理
         self.feature_dim = feature_dim
         self.num_class = num_class
+        self.seen_class = seen_class
         self.vec_array = np.ndarray((0, feature_dim))
         self.label_array = np.ndarray((0))
         self.tsne = TSNE(n_components=2, verbose=1, random_state=42)
@@ -22,14 +23,34 @@ class Tsne():
 
     def cal_and_save(self, path):
         result = self.tsne.fit_transform(self.vec_array)
-
+        colors = ['C' + str(i) for i in range(self.num_class)]
         # 归一化处理
         scaler = preprocessing.MinMaxScaler(feature_range=(-1,1))
         result = scaler.fit_transform(result)
 
         fig, ax = plt.subplots()
         ax.set_title('t-SNE process')
-        ax.scatter(result[:-self.num_class,0], result[:-self.num_class,1], c=self.label_array[:-self.num_class], s=5, alpha=0.4, cmap='jet')
-        ax.scatter(result[-self.num_class:,0], result[-self.num_class:,1], c=self.label_array[-self.num_class:], s=50, marker='*', cmap='jet')
+        center_vec = self.vec_array[-self.num_class:]
+        center_label = self.label_array[-self.num_class:]
+        self.vec_array = self.vec_array[:-self.num_class]
+        self.label_array = self.label_array[:-self.num_class]
+        for label_idx in self.seen_class:
+            ax.scatter(
+                self.vec_array[self.label_array==label_idx, 0],
+                self.vec_array[self.label_array==label_idx, 1],
+                c=colors[label_idx],
+                s=5,
+                alpha=0.4,
+            )
+        for label_idx in self.seen_class:
+            ax.scatter(
+                center_vec[center_label==label_idx, 0],
+                center_vec[center_label==label_idx, 1],
+                c=colors[label_idx],
+                s=50, marker='*'
+            )
+        plt.legend([str(i) for i in self.seen_class], loc='upper right')
+        # ax.scatter(result[:-self.num_class,0], result[:-self.num_class,1], c=self.label_array[:-self.num_class], s=5, alpha=0.4, cmap='jet')
+        # ax.scatter(result[-self.num_class:,0], result[-self.num_class:,1], c=self.label_array[-self.num_class:], s=50, marker='*', cmap='jet')
         plt.savefig(path)
         plt.close()

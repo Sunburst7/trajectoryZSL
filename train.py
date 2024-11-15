@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data as Data
+import torch.nn.init as init
 import torchvision
 import random 
 import math
@@ -30,24 +31,24 @@ IS_GZSL = False
 SEEN_CLASS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
 UNSEEN_CLASS = [10]
 # stft参数
-N_FFT = WINDOM_LENGTH = 64
-HOP_LENGTH = 32
+N_FFT = WINDOM_LENGTH = 128
+HOP_LENGTH = 16
 WINDOW_FUNCTION = "Hamming"
 NUM_SAMPLE_FEATURES = 4
 
 # 模型超参数
 RANDOM_SEED = 2024
-MARGIN = 48
-eta_cent = 5e-2
+MARGIN = 16
+eta_cent = 3e-2
 eta_cls = 1
-eta_margin = 0
+eta_margin = 3e-2
 
 num_epoch = 10
 batch_size = 8
-learning_rate = 1e-2
-wd = 0.1
+learning_rate = 1e-3
+wd = 5e-02
 encoder_layer_num = 6
-features_dim = 32
+features_dim = 128
 DEVICES = [i for i in range(torch.cuda.device_count())]
 
 # model = SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS)
@@ -56,8 +57,22 @@ model = torch.nn.DataParallel(model, device_ids=DEVICES)
 criterion_cls = nn.CrossEntropyLoss()  # cross entropy loss
 criterion_cent = CenterLoss(num_classes=NUM_CLASS, feat_dim=features_dim)
 criterion_margin = MarginLoss(MARGIN, num_classes=NUM_CLASS, feat_dim=features_dim, centers=criterion_cent.get_centers())
-optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=wd) # model optimizer
-optimizer_cent = optim.SGD(criterion_cent.parameters(), lr=0.1)
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=wd, momentum=0.9) # model optimizer
+optimizer_cent = optim.SGD(criterion_cent.parameters(), lr=0.5)
+
+def initialize_weights(model):
+    for m in model.modules():
+        if isinstance(m, nn.Conv2d):
+            init.kaiming_normal_(m.weight, mode='fan_in', nonlinearity='relu')
+            if m.bias is not None:
+                init.zeros_(m.bias)
+        elif isinstance(m, nn.Linear):
+            init.xavier_normal_(m.weight)
+            if m.bias is not None:
+                init.zeros_(m.bias)
+        elif isinstance(m, nn.BatchNorm2d):
+            init.ones_(m.weight)
+            init.zeros_(m.bias)
 
 def create_dataloader(path, batch_size):
     X, Y = AisDataReader.load_binary(path)
@@ -71,7 +86,6 @@ def draw_and_save(img_vector: np.ndarray, path):
     plt.colorbar(label='Magnitude')
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Time (s)')
-
     plt.savefig(path)
     plt.close()
 
@@ -95,6 +109,9 @@ test_filepath = os.path.join(ROOT_DATA_PATH, f'test_seqLen_{NUM_SEQ_LEN}_rate_{R
 train_loader = create_dataloader(train_filepath, batch_size)
 valid_loader = create_dataloader(valid_filepath, batch_size)
 test_loader = create_dataloader(test_filepath, batch_size)
+print(f"train length: {len(train_loader) * batch_size}")
+print(f"valid length: {len(valid_loader) * batch_size}")
+print(f"test length: {len(test_loader) * batch_size}")
 
 class Trainer:
     def __init__(self, model, train_dataset, valid_dataset, test_dataset, config, savedir=None, devices=torch.device("cpu")):
@@ -108,7 +125,8 @@ class Trainer:
         self.known_thresholds:Dict[int, torch.Tensor] = {known_class : 0 for known_class in SEEN_CLASS} # 可见类的距离阈值
         self.distances:Dict[int, list] = {known_class : [] for known_class in SEEN_CLASS} # 每个可见类对应样本到聚类中心的距离
         self.maha = MahalanobisLayer(features_dim, decay=0.99)
-        self.tsne = Tsne(feature_dim=features_dim, num_class=NUM_CLASS)
+        self.tsne = Tsne(feature_dim=features_dim, num_class=NUM_CLASS, seen_class=SEEN_CLASS)
+        initialize_weights(model)
     
     def update_thresholds(self):
         distances = {k : torch.stack(v).squeeze(dim=1) for (k, v) in self.distances.items()} # self.distances[i] = (num_samples, num_class, 1)
@@ -162,9 +180,10 @@ class Trainer:
             if_know = False
             dists = self.calculate_distance(centers, features[bid])
             for certain_label in SEEN_CLASS:
-                if dists[certain_label] < self.known_thresholds[certain_label]:
+                # if dists[certain_label] < self.known_thresholds[certain_label]:
+                #     if_know = True
+                if dists[certain_label] < self.known_thresholds[certain_label] and dists[certain_label] < min_dist:
                     if_know = True
-                if dists[certain_label] < min_dist:
                     min_dist = dists[certain_label]
                     predict_label = certain_label
 
@@ -187,7 +206,7 @@ class Trainer:
             loss_cls = criterion_cls(logits, y)
             loss_cent = criterion_cent(features, y)
             loss_margin = criterion_margin(features, y)
-            loss = loss_cls * eta_cls + loss_cent * eta_cent + loss_margin * eta_margin
+            loss = loss_cls  + loss_cent * eta_cent + loss_margin * eta_cent
             optimizer.zero_grad()
             optimizer_cent.zero_grad()
             num_total += x.shape[0]
@@ -204,7 +223,7 @@ class Trainer:
             else:
                 predict_labels = self.semantic_classify(criterion_cent.get_centers(), features)
                 # TODO: 目前是单未知类的替换
-                predict_labels = torch.where(predict_labels == -1, UNSEEN_CLASS[0], predict_labels)
+                predict_labels = torch.where(predict_labels == -1, UNSEEN_CLASS[0] if len(UNSEEN_CLASS) > 0 else -1, predict_labels)
                 num_correct += torch.sum(predict_labels == y)
                 pbar.set_description(f"epoch {epoch} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
 

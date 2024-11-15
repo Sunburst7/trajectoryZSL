@@ -6,7 +6,7 @@ import random
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from utils import standardized
+from utils import standardized, normalized, normalize_to_range
 
 
 class AisDataReader():
@@ -38,9 +38,9 @@ class AisDataReader():
     def save(self, fpath) -> None:
         with open(os.path.join(fpath, f"train_seqLen_{self.seq_len}_rate_{self.rate}_isGZSL_{self.is_gzsl}.pkl"), 'wb') as f: #保存为二进制文件
             pickle.dump((self.X_train, self.Y_train), f)
-        with open(os.path.join(fpath, f"test_seqLen_{self.seq_len}_rate_{self.rate}_isGZSL_{self.is_gzsl}.pkl"), 'wb') as f: #保存为二进制文件
-            pickle.dump((self.X_test, self.Y_test), f)
         with open(os.path.join(fpath, f"valid_seqLen_{self.seq_len}_rate_{self.rate}_isGZSL_{self.is_gzsl}.pkl"), 'wb') as f: #保存为二进制文件
+            pickle.dump((self.X_test, self.Y_test), f)
+        with open(os.path.join(fpath, f"test_seqLen_{self.seq_len}_rate_{self.rate}_isGZSL_{self.is_gzsl}.pkl"), 'wb') as f: #保存为二进制文件
             pickle.dump((self.X_unknown_test, self.Y_unknown_test), f)
 
     def load_data(self):
@@ -62,10 +62,10 @@ class AisDataReader():
                     new_data[:cur_seq_len, :] = single_sample
                     new_data[cur_seq_len:, 0:2] = single_sample[-1, 0:2]
                     single_sample = new_data
-                std_single_sample = standardized(single_sample)
-                if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(std_single_sample)):
+                norm_single_sample = normalized(single_sample)
+                if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(norm_single_sample)):
                     continue
-                arr.append(std_single_sample)
+                arr.append(single_sample)
             self.raw_data_map[i] = np.array(arr)
             cnt += len(arr)
             self.cls_count.append(cnt)
@@ -128,8 +128,8 @@ if __name__ == '__main__':
     data_reader = AisDataReader(ROOT_DATA_PATH, SEEN_CLASS, UNSEEN_CLASS)
     data_reader.save(os.path.join(ROOT_DATA_PATH))
     X_train, Y_train = data_reader.load_binary(os.path.join(ROOT_DATA_PATH, f'train_seqLen_{1024}_rate_{0.7}_isGZSL_{False}.pkl'))
-    X_test, Y_test = data_reader.load_binary(os.path.join(ROOT_DATA_PATH, f'test_seqLen_{1024}_rate_{0.7}_isGZSL_{False}.pkl'))
-    X_unknown, Y_unknown = data_reader.load_binary(os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{1024}_rate_{0.7}_isGZSL_{False}.pkl'))
+    X_test, Y_test = data_reader.load_binary(os.path.join(ROOT_DATA_PATH, f'valid_seqLen_{1024}_rate_{0.7}_isGZSL_{False}.pkl'))
+    X_unknown, Y_unknown = data_reader.load_binary(os.path.join(ROOT_DATA_PATH, f'test_seqLen_{1024}_rate_{0.7}_isGZSL_{False}.pkl'))
     print(f"train: {len(X_train)}")
     print(f"valid: {len(X_test)}")
     print(f"test : {len(X_unknown)}")
