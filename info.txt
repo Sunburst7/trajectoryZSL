@@ -1,0 +1,2203 @@
+train length: 1416
+valid length: 616
+test length: 72
+GPU is running...
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 1426 samples in 0.001s...
+[t-SNE] Computed neighbors for 1426 samples in 0.423s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 1426
+[t-SNE] Computed conditional probabilities for sample 1426 / 1426
+[t-SNE] Mean sigma: 1.473675
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 68.170914
+[t-SNE] KL divergence after 1000 iterations: 1.022144
+0: 141th value=5.8177618980407715
+1: 88th value=5.542699813842773
+2: 111th value=4.957204818725586
+3: 73th value=8.681880950927734
+4: 96th value=5.598339557647705
+5: 27th value=8.009056091308594
+6: 99th value=5.523759841918945
+7: 31th value=4.402890682220459
+8: 89th value=5.478288650512695
+9: 20th value=7.392476558685303
+11: 39th value=4.139868259429932
+12: 19th value=8.90209674835205
+13: 60th value=4.521812438964844
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.063s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.196087
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.776337
+[t-SNE] KL divergence after 1000 iterations: 1.100585
+0: 76th value=3.8740437030792236
+1: 1th value=3.456665515899658
+2: 9th value=3.008514642715454
+3: 47th value=3.8729586601257324
+4: 5th value=2.9633047580718994
+5: 0th value=3.565906286239624
+6: 1th value=3.055475950241089
+7: 1th value=2.8995471000671387
+8: 0th value=2.91278076171875
+9: 0th value=4.148872375488281
+11: 3th value=2.970646619796753
+12: 0th value=3.4314818382263184
+13: 0th value=2.762350082397461
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.059s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.155766
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.792038
+[t-SNE] KL divergence after 1000 iterations: 1.164998
+0: 93th value=4.021755218505859
+1: 1th value=3.0661511421203613
+2: 27th value=3.1268668174743652
+3: 59th value=4.231588363647461
+4: 19th value=3.2910537719726562
+5: 0th value=3.8950653076171875
+6: 1th value=3.0211222171783447
+7: 1th value=3.1037120819091797
+8: 0th value=2.985603094100952
+9: 0th value=4.24363374710083
+11: 1th value=2.608246088027954
+12: 0th value=2.949734687805176
+13: 0th value=2.669708251953125
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.064s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.077102
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.340057
+[t-SNE] KL divergence after 1000 iterations: 1.172402
+0: 101th value=3.998081922531128
+1: 1th value=3.139216899871826
+2: 41th value=3.2480432987213135
+3: 59th value=3.858800172805786
+4: 33th value=3.4091060161590576
+5: 0th value=3.499821901321411
+6: 9th value=3.05654239654541
+7: 2th value=3.1622731685638428
+8: 0th value=2.6107230186462402
+9: 0th value=3.878575563430786
+11: 2th value=2.7966151237487793
+12: 0th value=3.025438070297241
+13: 0th value=2.972411632537842
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.108s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.035521
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.366844
+[t-SNE] KL divergence after 1000 iterations: 1.163118
+0: 105th value=3.90092134475708
+1: 1th value=3.129290819168091
+2: 55th value=3.370319366455078
+3: 56th value=3.719728946685791
+4: 42th value=3.434109926223755
+5: 0th value=3.3510420322418213
+6: 18th value=3.1275312900543213
+7: 11th value=3.266277551651001
+8: 0th value=2.473442792892456
+9: 0th value=3.588440418243408
+11: 1th value=2.6112589836120605
+12: 0th value=2.5928843021392822
+13: 0th value=2.7529046535491943
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.101s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.009378
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.219292
+[t-SNE] KL divergence after 1000 iterations: 1.137229
+0: 110th value=3.8827362060546875
+1: 1th value=2.832706928253174
+2: 63th value=3.3662471771240234
+3: 53th value=3.5508556365966797
+4: 36th value=3.338444471359253
+5: 0th value=3.2899465560913086
+6: 27th value=3.281290292739868
+7: 20th value=3.2689404487609863
+8: 2th value=2.4352495670318604
+9: 0th value=3.540123701095581
+11: 5th value=2.694783926010132
+12: 2th value=3.1218690872192383
+13: 0th value=2.801403760910034
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.076s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.012399
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.555275
+[t-SNE] KL divergence after 1000 iterations: 1.144086
+0: 115th value=3.9698903560638428
+1: 2th value=2.931856393814087
+2: 89th value=3.5513854026794434
+3: 58th value=3.4280130863189697
+4: 48th value=3.5132510662078857
+5: 0th value=2.7432432174682617
+6: 38th value=3.3935387134552
+7: 23th value=3.27104115486145
+8: 5th value=2.436006784439087
+9: 0th value=3.160710334777832
+11: 9th value=2.8091304302215576
+12: 6th value=3.166914224624634
+13: 0th value=2.727466583251953
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.090s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.004984
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.832542
+[t-SNE] KL divergence after 1000 iterations: 1.159454
+0: 111th value=3.909024477005005
+1: 4th value=2.9649295806884766
+2: 91th value=3.633695602416992
+3: 57th value=3.3624160289764404
+4: 56th value=3.594365358352661
+5: 0th value=2.999833345413208
+6: 48th value=3.545344591140747
+7: 20th value=3.129195213317871
+8: 3th value=2.3298866748809814
+9: 0th value=3.1217234134674072
+11: 11th value=2.811936378479004
+12: 3th value=2.878277063369751
+13: 0th value=2.6946187019348145
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.004925
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.935829
+[t-SNE] KL divergence after 1000 iterations: 1.140850
+0: 112th value=3.8037590980529785
+1: 4th value=2.8533661365509033
+2: 92th value=3.536625623703003
+3: 56th value=3.234809398651123
+4: 53th value=3.4274179935455322
+5: 0th value=3.131568193435669
+6: 60th value=3.634397506713867
+7: 15th value=3.1226444244384766
+8: 6th value=2.4896905422210693
+9: 0th value=3.24043607711792
+11: 12th value=2.8181047439575195
+12: 5th value=3.0367095470428467
+13: 2th value=2.5411291122436523
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.982425
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.923409
+[t-SNE] KL divergence after 1000 iterations: 1.146844
+0: 112th value=3.8864290714263916
+1: 2th value=2.989764451980591
+2: 98th value=3.627366781234741
+3: 57th value=3.2509007453918457
+4: 62th value=3.668012857437134
+5: 0th value=3.047656297683716
+6: 57th value=3.6138086318969727
+7: 22th value=3.12418532371521
+8: 11th value=2.6244874000549316
+9: 0th value=3.2737369537353516
+11: 5th value=2.7802178859710693
+12: 5th value=3.0029537677764893
+13: 3th value=2.551185369491577
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.071s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.957528
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.935455
+[t-SNE] KL divergence after 1000 iterations: 1.148257
+0: 111th value=3.704813241958618
+1: 6th value=3.010450839996338
+2: 92th value=3.527801513671875
+3: 60th value=3.320528507232666
+4: 62th value=3.5647294521331787
+5: 0th value=3.0953285694122314
+6: 70th value=3.834315061569214
+7: 30th value=3.23327374458313
+8: 6th value=2.476048469543457
+9: 0th value=3.0753791332244873
+11: 12th value=2.8962366580963135
+12: 2th value=3.015794277191162
+13: 3th value=2.6048245429992676
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.942197
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.051399
+[t-SNE] KL divergence after 1000 iterations: 1.135122
+0: 110th value=3.8075246810913086
+1: 2th value=2.886935234069824
+2: 109th value=3.696686267852783
+3: 51th value=3.337935447692871
+4: 58th value=3.4738776683807373
+5: 1th value=3.336498737335205
+6: 71th value=3.8498871326446533
+7: 39th value=3.3837153911590576
+8: 12th value=2.606574535369873
+9: 0th value=3.5776925086975098
+11: 21th value=3.0587291717529297
+12: 7th value=3.0394983291625977
+13: 7th value=2.765345335006714
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.926003
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.149086
+[t-SNE] KL divergence after 1000 iterations: 1.133417
+0: 115th value=3.9006991386413574
+1: 2th value=2.71726393699646
+2: 103th value=3.6429331302642822
+3: 63th value=3.7194151878356934
+4: 66th value=3.6666064262390137
+5: 0th value=3.120575428009033
+6: 54th value=3.6209354400634766
+7: 24th value=2.9672176837921143
+8: 10th value=2.7272043228149414
+9: 0th value=3.1065053939819336
+11: 14th value=2.8628733158111572
+12: 6th value=3.087062120437622
+13: 5th value=2.8077754974365234
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.935461
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.493965
+[t-SNE] KL divergence after 1000 iterations: 1.157106
+0: 111th value=3.8406927585601807
+1: 2th value=2.970731735229492
+2: 122th value=4.0540666580200195
+3: 48th value=3.3009588718414307
+4: 69th value=3.7470390796661377
+5: 0th value=2.7689003944396973
+6: 67th value=3.781863212585449
+7: 44th value=3.381356716156006
+8: 20th value=2.986154317855835
+9: 0th value=3.4630393981933594
+11: 16th value=2.9127206802368164
+12: 0th value=2.789348602294922
+13: 7th value=2.790339946746826
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.898310
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.731628
+[t-SNE] KL divergence after 1000 iterations: 1.133391
+0: 117th value=4.037201881408691
+1: 1th value=2.7473559379577637
+2: 118th value=3.883375406265259
+3: 54th value=3.5167906284332275
+4: 80th value=3.8823025226593018
+5: 0th value=3.2563540935516357
+6: 66th value=3.7021944522857666
+7: 48th value=3.4138071537017822
+8: 12th value=2.5646579265594482
+9: 0th value=3.607839584350586
+11: 14th value=2.944267988204956
+12: 0th value=2.596039295196533
+13: 26th value=3.0498034954071045
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.081s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.898383
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.934593
+[t-SNE] KL divergence after 1000 iterations: 1.123411
+0: 119th value=3.9732666015625
+1: 1th value=2.5894460678100586
+2: 120th value=3.9174818992614746
+3: 59th value=3.46160626411438
+4: 80th value=3.8896610736846924
+5: 0th value=3.027459144592285
+6: 75th value=3.825054407119751
+7: 47th value=3.307558536529541
+8: 15th value=2.872375726699829
+9: 0th value=3.2805235385894775
+11: 11th value=2.7806191444396973
+12: 0th value=2.4486706256866455
+13: 25th value=3.010678768157959
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.889938
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.087021
+[t-SNE] KL divergence after 1000 iterations: 1.100038
+0: 113th value=3.8499269485473633
+1: 1th value=2.7978599071502686
+2: 121th value=3.935737371444702
+3: 59th value=3.595519542694092
+4: 84th value=4.038045883178711
+5: 0th value=3.282491683959961
+6: 71th value=3.669266700744629
+7: 38th value=3.1592564582824707
+8: 12th value=2.836456775665283
+9: 0th value=3.424757480621338
+11: 21th value=3.0409018993377686
+12: 0th value=2.5036113262176514
+13: 19th value=2.9539432525634766
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.071s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.914798
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.836807
+[t-SNE] KL divergence after 1000 iterations: 1.111224
+0: 118th value=3.916773796081543
+1: 1th value=2.842656135559082
+2: 123th value=4.047109603881836
+3: 61th value=3.593052625656128
+4: 76th value=3.7594659328460693
+5: 0th value=2.880560874938965
+6: 67th value=3.688995599746704
+7: 53th value=3.3662149906158447
+8: 8th value=2.604017496109009
+9: 0th value=3.3311965465545654
+11: 15th value=2.9249942302703857
+12: 6th value=2.9278523921966553
+13: 25th value=3.0488946437835693
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.089s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.940737
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.020393
+[t-SNE] KL divergence after 1000 iterations: 1.115757
+0: 123th value=4.014463901519775
+1: 6th value=2.9062018394470215
+2: 127th value=3.9409167766571045
+3: 65th value=3.763815402984619
+4: 77th value=3.592587471008301
+5: 0th value=3.0043532848358154
+6: 77th value=3.9549546241760254
+7: 47th value=3.295750379562378
+8: 9th value=2.6875228881835938
+9: 0th value=3.339686632156372
+11: 11th value=2.782224416732788
+12: 7th value=3.0084972381591797
+13: 25th value=3.008219003677368
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.101s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.930888
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.395340
+[t-SNE] KL divergence after 1000 iterations: 1.114697
+0: 120th value=3.9532201290130615
+1: 2th value=2.601924180984497
+2: 118th value=3.904653310775757
+3: 61th value=3.6552324295043945
+4: 74th value=3.653296947479248
+5: 0th value=3.314647912979126
+6: 85th value=3.904052495956421
+7: 50th value=3.4481096267700195
+8: 10th value=2.8525452613830566
+9: 0th value=3.15637469291687
+11: 15th value=3.050309419631958
+12: 6th value=2.9401512145996094
+13: 26th value=3.1640172004699707
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.871594
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.831345
+[t-SNE] KL divergence after 1000 iterations: 1.103669
+0: 120th value=4.074742317199707
+1: 3th value=2.9653730392456055
+2: 125th value=4.108941078186035
+3: 61th value=3.5325803756713867
+4: 79th value=3.7671830654144287
+5: 0th value=3.148416042327881
+6: 83th value=4.025973320007324
+7: 42th value=3.129223585128784
+8: 14th value=2.6428909301757812
+9: 0th value=3.6571085453033447
+11: 19th value=3.0592105388641357
+12: 7th value=3.0420706272125244
+13: 38th value=3.32289981842041
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.087s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.912196
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.889244
+[t-SNE] KL divergence after 1000 iterations: 1.086001
+0: 131th value=4.1555867195129395
+1: 6th value=2.952697992324829
+2: 121th value=3.925251007080078
+3: 62th value=3.7220168113708496
+4: 77th value=3.693471908569336
+5: 0th value=3.2434818744659424
+6: 80th value=3.930854320526123
+7: 47th value=3.2826104164123535
+8: 24th value=3.102952718734741
+9: 0th value=3.151616334915161
+11: 19th value=3.068399429321289
+12: 6th value=3.227130889892578
+13: 29th value=3.1293039321899414
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.918800
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.902153
+[t-SNE] KL divergence after 1000 iterations: 1.087596
+0: 122th value=3.948181390762329
+1: 3th value=2.7851991653442383
+2: 121th value=3.7285163402557373
+3: 64th value=3.663304328918457
+4: 80th value=3.6429548263549805
+5: 0th value=2.9146413803100586
+6: 73th value=3.87219500541687
+7: 42th value=3.148721694946289
+8: 16th value=2.8525044918060303
+9: 0th value=3.317528247833252
+11: 20th value=3.0590553283691406
+12: 13th value=3.5686349868774414
+13: 32th value=3.0883278846740723
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.086s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.923271
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.678253
+[t-SNE] KL divergence after 1000 iterations: 1.082113
+0: 130th value=4.274240493774414
+1: 6th value=2.787726640701294
+2: 121th value=3.8158349990844727
+3: 66th value=4.14630126953125
+4: 86th value=3.8313405513763428
+5: 0th value=3.0692691802978516
+6: 77th value=3.8974859714508057
+7: 53th value=3.28007173538208
+8: 27th value=3.026275157928467
+9: 0th value=3.5633044242858887
+11: 19th value=2.9619643688201904
+12: 8th value=3.233711004257202
+13: 23th value=3.0281972885131836
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.924632
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.585991
+[t-SNE] KL divergence after 1000 iterations: 1.104140
+0: 124th value=3.9585347175598145
+1: 9th value=3.0326826572418213
+2: 113th value=3.720991611480713
+3: 64th value=4.056012153625488
+4: 81th value=3.689302682876587
+5: 0th value=3.081840753555298
+6: 73th value=3.821134567260742
+7: 38th value=3.165649652481079
+8: 16th value=2.814772367477417
+9: 0th value=3.2558701038360596
+11: 24th value=3.1301379203796387
+12: 4th value=3.0884969234466553
+13: 24th value=3.043611764907837
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.060s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.894449
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.858345
+[t-SNE] KL divergence after 1000 iterations: 1.082286
+0: 123th value=3.9469504356384277
+1: 2th value=2.7927474975585938
+2: 130th value=3.946122884750366
+3: 65th value=3.5928874015808105
+4: 77th value=3.474369764328003
+5: 0th value=3.343052864074707
+6: 88th value=4.0126495361328125
+7: 46th value=3.319512128829956
+8: 23th value=3.0012006759643555
+9: 0th value=2.9975638389587402
+11: 40th value=3.2774362564086914
+12: 6th value=3.159987211227417
+13: 47th value=3.2571375370025635
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.077s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.939149
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.109810
+[t-SNE] KL divergence after 1000 iterations: 1.108074
+0: 123th value=3.9630537033081055
+1: 1th value=2.895612955093384
+2: 117th value=3.888779401779175
+3: 58th value=3.5306851863861084
+4: 77th value=3.666754722595215
+5: 0th value=3.064626693725586
+6: 84th value=3.9766628742218018
+7: 39th value=3.1247777938842773
+8: 28th value=3.0258421897888184
+9: 0th value=2.826946973800659
+11: 33th value=3.1975369453430176
+12: 4th value=3.326785087585449
+13: 39th value=3.2057862281799316
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.066s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.938240
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.922653
+[t-SNE] KL divergence after 1000 iterations: 1.083988
+0: 127th value=4.2498321533203125
+1: 4th value=2.9005839824676514
+2: 106th value=3.769468307495117
+3: 62th value=3.642568349838257
+4: 80th value=3.645655393600464
+5: 0th value=3.000777006149292
+6: 87th value=3.8498806953430176
+7: 42th value=3.1449737548828125
+8: 24th value=2.9968888759613037
+9: 0th value=3.459834337234497
+11: 38th value=3.412374496459961
+12: 11th value=3.6375679969787598
+13: 67th value=3.4865710735321045
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.070s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.946093
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.091072
+[t-SNE] KL divergence after 1000 iterations: 1.089158
+0: 128th value=4.224139213562012
+1: 8th value=2.975888252258301
+2: 123th value=3.9471957683563232
+3: 59th value=3.302699327468872
+4: 78th value=3.5155491828918457
+5: 0th value=2.6762759685516357
+6: 89th value=3.915009021759033
+7: 50th value=3.300081729888916
+8: 32th value=3.2330543994903564
+9: 0th value=3.3022942543029785
+11: 25th value=3.0780248641967773
+12: 9th value=3.36616849899292
+13: 57th value=3.3512370586395264
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.068s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.907310
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.432121
+[t-SNE] KL divergence after 1000 iterations: 1.092939
+0: 130th value=4.184074878692627
+1: 1th value=2.736889123916626
+2: 108th value=3.7797739505767822
+3: 66th value=3.9556972980499268
+4: 78th value=3.6978373527526855
+5: 0th value=2.889319896697998
+6: 94th value=4.043212890625
+7: 47th value=3.2820374965667725
+8: 36th value=3.212292194366455
+9: 1th value=3.5555191040039062
+11: 31th value=3.2910685539245605
+12: 6th value=3.4486844539642334
+13: 52th value=3.361837863922119
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.082s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.935087
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.785835
+[t-SNE] KL divergence after 1000 iterations: 1.140013
+0: 127th value=4.337643623352051
+1: 4th value=2.8476674556732178
+2: 118th value=3.9050240516662598
+3: 64th value=3.565593719482422
+4: 72th value=3.587897777557373
+5: 0th value=3.468005657196045
+6: 92th value=3.9621212482452393
+7: 51th value=3.254282236099243
+8: 28th value=3.1719040870666504
+9: 0th value=2.6715147495269775
+11: 29th value=3.243844985961914
+12: 9th value=3.6645069122314453
+13: 60th value=3.4097397327423096
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.075s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.911673
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.193756
+[t-SNE] KL divergence after 1000 iterations: 1.108749
+0: 125th value=4.417482852935791
+1: 0th value=2.547759771347046
+2: 125th value=4.12105131149292
+3: 61th value=3.805741786956787
+4: 69th value=3.5703930854797363
+5: 0th value=3.3757574558258057
+6: 81th value=3.868795871734619
+7: 50th value=3.3085362911224365
+8: 21th value=3.051156759262085
+9: 0th value=3.1728265285491943
+11: 26th value=3.0903074741363525
+12: 0th value=2.9184651374816895
+13: 33th value=3.2402408123016357
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.085s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.900984
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.571747
+[t-SNE] KL divergence after 1000 iterations: 1.096078
+0: 131th value=4.299332141876221
+1: 1th value=2.652113914489746
+2: 107th value=3.7740962505340576
+3: 60th value=3.6835896968841553
+4: 77th value=3.644690990447998
+5: 0th value=3.0600764751434326
+6: 92th value=3.9870264530181885
+7: 52th value=3.3387491703033447
+8: 51th value=3.592381715774536
+9: 0th value=3.2555718421936035
+11: 30th value=3.22900652885437
+12: 4th value=2.8931655883789062
+13: 52th value=3.3682172298431396
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.089s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.936111
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.752350
+[t-SNE] KL divergence after 1000 iterations: 1.102255
+0: 130th value=4.203596591949463
+1: 4th value=2.918637752532959
+2: 114th value=3.8996477127075195
+3: 60th value=3.4738504886627197
+4: 78th value=3.6652302742004395
+5: 0th value=2.9129462242126465
+6: 92th value=3.926161527633667
+7: 53th value=3.374817132949829
+8: 26th value=3.146183729171753
+9: 0th value=3.0775234699249268
+11: 40th value=3.298596143722534
+12: 7th value=3.307253360748291
+13: 57th value=3.3654305934906006
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.096s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.926086
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.746849
+[t-SNE] KL divergence after 1000 iterations: 1.104886
+0: 127th value=4.390172958374023
+1: 2th value=2.8694281578063965
+2: 116th value=4.062501430511475
+3: 62th value=3.660429000854492
+4: 86th value=3.8452796936035156
+5: 0th value=3.2416932582855225
+6: 87th value=3.833150625228882
+7: 55th value=3.411111354827881
+8: 42th value=3.600698947906494
+9: 1th value=3.3911285400390625
+11: 37th value=3.334826707839966
+12: 13th value=3.6691813468933105
+13: 55th value=3.3505160808563232
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.078s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.933719
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.817108
+[t-SNE] KL divergence after 1000 iterations: 1.123443
+0: 124th value=4.0632548332214355
+1: 5th value=2.8329246044158936
+2: 116th value=3.911892890930176
+3: 62th value=3.4455504417419434
+4: 76th value=3.8209474086761475
+5: 0th value=2.992788791656494
+6: 95th value=4.114013195037842
+7: 56th value=3.4609196186065674
+8: 56th value=3.6596553325653076
+9: 0th value=3.098816394805908
+11: 28th value=3.151604413986206
+12: 5th value=2.940108060836792
+13: 91th value=3.721727132797241
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.076s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.957475
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.075500
+[t-SNE] KL divergence after 1000 iterations: 1.106975
+0: 128th value=4.09710168838501
+1: 6th value=2.88973069190979
+2: 119th value=4.040491104125977
+3: 64th value=4.031691074371338
+4: 81th value=3.599451780319214
+5: 0th value=3.1148152351379395
+6: 95th value=4.071802139282227
+7: 63th value=3.706066131591797
+8: 44th value=3.361112117767334
+9: 1th value=3.4546546936035156
+11: 35th value=3.2383601665496826
+12: 10th value=3.742443561553955
+13: 79th value=3.512000322341919
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.969442
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.375427
+[t-SNE] KL divergence after 1000 iterations: 1.076329
+0: 127th value=4.278448104858398
+1: 8th value=2.9988293647766113
+2: 122th value=3.9487626552581787
+3: 66th value=4.0295257568359375
+4: 80th value=3.6742963790893555
+5: 0th value=2.932793378829956
+6: 96th value=4.106268882751465
+7: 43th value=3.437883138656616
+8: 46th value=3.4780330657958984
+9: 1th value=2.901728391647339
+11: 49th value=3.389369010925293
+12: 4th value=2.9713752269744873
+13: 79th value=3.6035234928131104
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.936171
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.528000
+[t-SNE] KL divergence after 1000 iterations: 1.093024
+0: 126th value=4.117652893066406
+1: 8th value=3.028865337371826
+2: 106th value=3.75356125831604
+3: 59th value=3.6454129219055176
+4: 85th value=3.825181484222412
+5: 0th value=3.076157569885254
+6: 96th value=3.904432773590088
+7: 47th value=3.4012162685394287
+8: 43th value=3.4462215900421143
+9: 2th value=3.4366183280944824
+11: 46th value=3.3652307987213135
+12: 2th value=3.0144622325897217
+13: 95th value=3.7562174797058105
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.080s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.919656
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.002441
+[t-SNE] KL divergence after 1000 iterations: 1.076686
+0: 132th value=4.411129951477051
+1: 5th value=2.8397014141082764
+2: 112th value=3.734157085418701
+3: 63th value=3.5672097206115723
+4: 79th value=3.6505517959594727
+5: 0th value=2.845827102661133
+6: 90th value=3.904317855834961
+7: 59th value=3.686429977416992
+8: 32th value=3.1697418689727783
+9: 2th value=3.1265690326690674
+11: 37th value=3.3270418643951416
+12: 11th value=3.464413642883301
+13: 103th value=3.8751354217529297
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.950655
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.686913
+[t-SNE] KL divergence after 1000 iterations: 1.056017
+0: 128th value=4.176249027252197
+1: 17th value=3.1889142990112305
+2: 120th value=4.049313545227051
+3: 58th value=3.402229070663452
+4: 86th value=3.728059768676758
+5: 0th value=2.750178098678589
+6: 93th value=3.8620705604553223
+7: 55th value=3.4140467643737793
+8: 53th value=3.645212411880493
+9: 0th value=2.987017869949341
+11: 46th value=3.307844400405884
+12: 5th value=2.7616963386535645
+13: 97th value=3.8517892360687256
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.957396
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.301605
+[t-SNE] KL divergence after 1000 iterations: 1.096232
+0: 129th value=4.271435737609863
+1: 21th value=3.235093593597412
+2: 110th value=3.8627755641937256
+3: 67th value=4.167593002319336
+4: 84th value=3.8222806453704834
+5: 2th value=2.9064173698425293
+6: 95th value=3.8748724460601807
+7: 51th value=3.3398396968841553
+8: 43th value=3.374082326889038
+9: 0th value=2.8046934604644775
+11: 47th value=3.374025583267212
+12: 9th value=3.335930585861206
+13: 111th value=3.9239163398742676
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.084s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.944001
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.423447
+[t-SNE] KL divergence after 1000 iterations: 1.091675
+0: 123th value=4.1281914710998535
+1: 25th value=3.3986129760742188
+2: 105th value=3.744678258895874
+3: 57th value=3.667097568511963
+4: 77th value=3.8757636547088623
+5: 0th value=2.5322279930114746
+6: 95th value=4.21165132522583
+7: 63th value=3.817425489425659
+8: 53th value=3.452913761138916
+9: 2th value=3.5089924335479736
+11: 42th value=3.3656342029571533
+12: 5th value=2.8803224563598633
+13: 112th value=4.208657741546631
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.081s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.915536
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.928749
+[t-SNE] KL divergence after 1000 iterations: 1.109489
+0: 121th value=4.103434085845947
+1: 12th value=2.9933552742004395
+2: 119th value=4.030336380004883
+3: 58th value=3.4798285961151123
+4: 75th value=3.677456855773926
+5: 0th value=3.0455360412597656
+6: 100th value=4.279443740844727
+7: 46th value=3.4108221530914307
+8: 62th value=3.7224326133728027
+9: 1th value=3.1033170223236084
+11: 18th value=3.1064274311065674
+12: 7th value=3.223494052886963
+13: 89th value=3.850257158279419
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.933438
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.736938
+[t-SNE] KL divergence after 1000 iterations: 1.105731
+0: 120th value=4.019252300262451
+1: 22th value=3.3120858669281006
+2: 109th value=3.925675630569458
+3: 61th value=3.6339712142944336
+4: 84th value=4.000853538513184
+5: 0th value=3.4815008640289307
+6: 91th value=3.9083194732666016
+7: 54th value=3.551342010498047
+8: 62th value=3.733034133911133
+9: 0th value=3.016183376312256
+11: 54th value=3.5959010124206543
+12: 2th value=3.0621824264526367
+13: 96th value=3.9287216663360596
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.912343
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.898766
+[t-SNE] KL divergence after 1000 iterations: 1.073750
+0: 127th value=4.418743133544922
+1: 12th value=2.97920298576355
+2: 108th value=3.800771713256836
+3: 63th value=3.753678560256958
+4: 93th value=4.116489887237549
+5: 0th value=3.2963521480560303
+6: 90th value=3.865999937057495
+7: 52th value=3.558444023132324
+8: 63th value=3.833575963973999
+9: 2th value=3.925427198410034
+11: 64th value=3.6188483238220215
+12: 8th value=2.9926397800445557
+13: 95th value=3.8223607540130615
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.083s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.934314
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.029381
+[t-SNE] KL divergence after 1000 iterations: 1.079425
+0: 135th value=4.545947074890137
+1: 38th value=3.698237419128418
+2: 122th value=4.179310321807861
+3: 65th value=3.5653553009033203
+4: 82th value=3.7963690757751465
+5: 1th value=3.2874274253845215
+6: 96th value=4.00480318069458
+7: 66th value=3.9018807411193848
+8: 65th value=3.6543333530426025
+9: 2th value=2.9785895347595215
+11: 64th value=3.6623919010162354
+12: 8th value=3.139523983001709
+13: 111th value=4.08927583694458
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.077s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.961074
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.288383
+[t-SNE] KL divergence after 1000 iterations: 1.078151
+0: 127th value=4.489498138427734
+1: 11th value=3.0892386436462402
+2: 109th value=4.050394058227539
+3: 60th value=3.897202491760254
+4: 66th value=3.536508798599243
+5: 0th value=3.132998466491699
+6: 98th value=4.083168983459473
+7: 63th value=3.802414655685425
+8: 69th value=3.833167314529419
+9: 4th value=3.1695878505706787
+11: 56th value=3.628235101699829
+12: 9th value=3.2612626552581787
+13: 89th value=3.7817435264587402
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.093s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.940562
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.354797
+[t-SNE] KL divergence after 1000 iterations: 1.060575
+0: 130th value=4.2864203453063965
+1: 28th value=3.520360231399536
+2: 115th value=4.155239582061768
+3: 63th value=3.6947336196899414
+4: 76th value=3.687774658203125
+5: 0th value=3.3963894844055176
+6: 98th value=4.217458724975586
+7: 55th value=3.5413830280303955
+8: 63th value=3.7410545349121094
+9: 7th value=3.72255277633667
+11: 67th value=3.7798609733581543
+12: 9th value=3.314016580581665
+13: 84th value=3.796999454498291
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.088s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.941941
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.350670
+[t-SNE] KL divergence after 1000 iterations: 1.053749
+0: 133th value=4.382766246795654
+1: 22th value=3.4267280101776123
+2: 119th value=4.116297245025635
+3: 62th value=4.202705383300781
+4: 82th value=3.8908660411834717
+5: 0th value=2.96588134765625
+6: 92th value=4.03685998916626
+7: 63th value=3.8137383460998535
+8: 60th value=3.420196533203125
+9: 2th value=3.2005093097686768
+11: 45th value=3.340071678161621
+12: 7th value=3.1518266201019287
+13: 119th value=4.2907209396362305
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.957926
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.998672
+[t-SNE] KL divergence after 1000 iterations: 1.054569
+0: 132th value=4.481093406677246
+1: 30th value=3.490267276763916
+2: 104th value=3.865737199783325
+3: 62th value=3.745861291885376
+4: 82th value=3.8765575885772705
+5: 0th value=2.9527294635772705
+6: 88th value=3.967470645904541
+7: 60th value=3.672407627105713
+8: 67th value=3.568544864654541
+9: 3th value=3.313358783721924
+11: 59th value=3.5853617191314697
+12: 15th value=3.8307645320892334
+13: 95th value=3.7975916862487793
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.080s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.945350
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.712547
+[t-SNE] KL divergence after 1000 iterations: 1.109101
+0: 122th value=4.278989315032959
+1: 25th value=3.3251726627349854
+2: 116th value=4.070275783538818
+3: 61th value=3.7326998710632324
+4: 78th value=4.003910541534424
+5: 0th value=2.762570381164551
+6: 95th value=4.086137294769287
+7: 60th value=3.610646963119507
+8: 73th value=3.841785430908203
+9: 6th value=3.9065563678741455
+11: 46th value=3.3710434436798096
+12: 13th value=3.7157418727874756
+13: 91th value=3.801119327545166
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.078s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.933618
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.528175
+[t-SNE] KL divergence after 1000 iterations: 1.092929
+0: 132th value=4.2385454177856445
+1: 25th value=3.286226987838745
+2: 113th value=3.90670108795166
+3: 63th value=4.003331184387207
+4: 67th value=3.5975494384765625
+5: 1th value=3.0160036087036133
+6: 87th value=3.816596269607544
+7: 63th value=3.8990790843963623
+8: 68th value=3.5515849590301514
+9: 5th value=3.2742791175842285
+11: 60th value=3.4776384830474854
+12: 15th value=4.145895004272461
+13: 113th value=4.153817653656006
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.060s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.959033
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.450714
+[t-SNE] KL divergence after 1000 iterations: 1.074610
+0: 130th value=4.404379367828369
+1: 33th value=3.587207078933716
+2: 120th value=4.082940578460693
+3: 57th value=3.3808212280273438
+4: 77th value=3.9242897033691406
+5: 0th value=2.7654988765716553
+6: 97th value=4.166053295135498
+7: 57th value=3.576231002807617
+8: 68th value=3.6563162803649902
+9: 7th value=3.705695390701294
+11: 67th value=3.569505214691162
+12: 4th value=3.1994662284851074
+13: 96th value=3.7846693992614746
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.084s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.993836
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.867393
+[t-SNE] KL divergence after 1000 iterations: 1.035136
+0: 132th value=4.288519859313965
+1: 33th value=3.604748487472534
+2: 119th value=4.23020601272583
+3: 60th value=3.691828966140747
+4: 77th value=3.4774413108825684
+5: 0th value=2.8261330127716064
+6: 97th value=4.31874942779541
+7: 65th value=3.7016139030456543
+8: 74th value=3.6545298099517822
+9: 2th value=3.0633485317230225
+11: 61th value=3.447726011276245
+12: 16th value=3.5783867835998535
+13: 119th value=4.17819881439209
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.083s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.012023
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.768105
+[t-SNE] KL divergence after 1000 iterations: 1.075650
+0: 127th value=4.423288345336914
+1: 23th value=3.3869004249572754
+2: 104th value=3.956474542617798
+3: 56th value=3.62446928024292
+4: 76th value=3.761113166809082
+5: 0th value=2.9699692726135254
+6: 100th value=4.405147552490234
+7: 53th value=3.518653631210327
+8: 77th value=3.73641300201416
+9: 3th value=3.6542160511016846
+11: 52th value=3.4617788791656494
+12: 14th value=3.828406572341919
+13: 109th value=4.1173505783081055
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.971225
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.628929
+[t-SNE] KL divergence after 1000 iterations: 1.078336
+0: 137th value=4.676748752593994
+1: 28th value=3.412186622619629
+2: 107th value=3.921919107437134
+3: 61th value=3.601837158203125
+4: 82th value=3.8054864406585693
+5: 1th value=3.4622304439544678
+6: 95th value=4.197513580322266
+7: 56th value=3.548940420150757
+8: 49th value=3.2579331398010254
+9: 3th value=3.3882217407226562
+11: 59th value=3.595304012298584
+12: 9th value=3.3391668796539307
+13: 97th value=3.8678884506225586
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.069s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.966149
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.041496
+[t-SNE] KL divergence after 1000 iterations: 1.037961
+0: 132th value=4.541391849517822
+1: 30th value=3.5185635089874268
+2: 119th value=4.112231731414795
+3: 61th value=3.675495147705078
+4: 80th value=3.6582257747650146
+5: 0th value=2.392763376235962
+6: 92th value=3.932305097579956
+7: 54th value=3.5523533821105957
+8: 63th value=3.546971321105957
+9: 0th value=3.4643845558166504
+11: 64th value=3.5710694789886475
+12: 11th value=3.6747941970825195
+13: 118th value=4.104737758636475
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.092s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.971622
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.959824
+[t-SNE] KL divergence after 1000 iterations: 1.043299
+0: 131th value=4.246737003326416
+1: 25th value=3.193995952606201
+2: 120th value=4.122360706329346
+3: 59th value=3.561589002609253
+4: 75th value=3.60581374168396
+5: 0th value=2.475583076477051
+6: 96th value=4.063696384429932
+7: 67th value=3.7725625038146973
+8: 65th value=3.5882701873779297
+9: 3th value=3.3808465003967285
+11: 60th value=3.4350221157073975
+12: 10th value=3.503981828689575
+13: 112th value=4.078191757202148
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.021488
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.189522
+[t-SNE] KL divergence after 1000 iterations: 1.061348
+0: 131th value=4.333218574523926
+1: 34th value=3.4770944118499756
+2: 120th value=4.236961364746094
+3: 64th value=3.994481086730957
+4: 77th value=3.6531074047088623
+5: 0th value=2.517688035964966
+6: 97th value=4.115062236785889
+7: 64th value=3.8481788635253906
+8: 63th value=3.63309645652771
+9: 1th value=3.178338050842285
+11: 72th value=3.706167697906494
+12: 8th value=3.2868335247039795
+13: 114th value=4.147097587585449
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.010624
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.711456
+[t-SNE] KL divergence after 1000 iterations: 1.066458
+0: 132th value=4.567317962646484
+1: 34th value=3.4856903553009033
+2: 117th value=4.10641622543335
+3: 63th value=3.9924449920654297
+4: 69th value=3.6050047874450684
+5: 0th value=3.1078622341156006
+6: 102th value=4.172204494476318
+7: 70th value=3.9718832969665527
+8: 65th value=3.5912957191467285
+9: 3th value=3.1817739009857178
+11: 81th value=3.8186209201812744
+12: 6th value=3.1429271697998047
+13: 111th value=4.049940586090088
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.988259
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.943527
+[t-SNE] KL divergence after 1000 iterations: 1.079675
+0: 122th value=4.227786064147949
+1: 34th value=3.5122313499450684
+2: 128th value=4.606691360473633
+3: 65th value=4.092310905456543
+4: 77th value=3.68375825881958
+5: 0th value=2.552349090576172
+6: 107th value=4.292730331420898
+7: 66th value=3.968553304672241
+8: 67th value=3.5844781398773193
+9: 11th value=3.7150180339813232
+11: 62th value=3.51343035697937
+12: 8th value=3.433124303817749
+13: 121th value=3.970305919647217
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.058s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.998278
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.454590
+[t-SNE] KL divergence after 1000 iterations: 1.081825
+0: 127th value=4.207259654998779
+1: 44th value=3.7288129329681396
+2: 113th value=3.97017502784729
+3: 66th value=4.005885601043701
+4: 73th value=3.510218620300293
+5: 0th value=3.423732280731201
+6: 100th value=4.2016520500183105
+7: 62th value=3.788788080215454
+8: 69th value=3.570396900177002
+9: 7th value=3.687375068664551
+11: 71th value=3.7793898582458496
+12: 12th value=3.6134278774261475
+13: 99th value=3.816118001937866
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.995891
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.177673
+[t-SNE] KL divergence after 1000 iterations: 1.057936
+0: 125th value=3.87419056892395
+1: 34th value=3.5452351570129395
+2: 117th value=4.245189189910889
+3: 61th value=3.6845600605010986
+4: 84th value=3.939478874206543
+5: 0th value=3.6313202381134033
+6: 99th value=4.174459457397461
+7: 71th value=3.889967203140259
+8: 71th value=3.810441017150879
+9: 4th value=3.5279879570007324
+11: 39th value=3.0794970989227295
+12: 12th value=3.492640972137451
+13: 93th value=3.8259944915771484
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.086s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.033795
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.430969
+[t-SNE] KL divergence after 1000 iterations: 1.078051
+0: 128th value=4.060835838317871
+1: 33th value=3.465919256210327
+2: 116th value=4.085145950317383
+3: 63th value=4.023995876312256
+4: 78th value=3.5526669025421143
+5: 1th value=3.2731339931488037
+6: 102th value=4.031271457672119
+7: 67th value=3.9131031036376953
+8: 72th value=3.5558886528015137
+9: 5th value=3.334256172180176
+11: 62th value=3.302044630050659
+12: 7th value=3.155658006668091
+13: 110th value=3.9599852561950684
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.080s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.052370
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.330109
+[t-SNE] KL divergence after 1000 iterations: 1.067971
+0: 132th value=4.396989822387695
+1: 55th value=3.9700558185577393
+2: 117th value=4.178727149963379
+3: 62th value=3.776165246963501
+4: 83th value=3.8052008152008057
+5: 2th value=2.914862632751465
+6: 99th value=4.27336311340332
+7: 54th value=3.7741143703460693
+8: 76th value=3.7168097496032715
+9: 7th value=3.8313405513763428
+11: 74th value=3.641613006591797
+12: 16th value=4.20487642288208
+13: 121th value=4.151119232177734
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.056s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.012544
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.868500
+[t-SNE] KL divergence after 1000 iterations: 1.045700
+0: 127th value=4.206785202026367
+1: 23th value=3.312303066253662
+2: 117th value=3.9690961837768555
+3: 63th value=3.9732632637023926
+4: 88th value=3.8540666103363037
+5: 0th value=2.6511964797973633
+6: 100th value=4.1563520431518555
+7: 55th value=3.575429916381836
+8: 83th value=3.6684019565582275
+9: 3th value=3.303300380706787
+11: 74th value=3.5921273231506348
+12: 15th value=3.7911643981933594
+13: 109th value=3.975555658340454
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.058s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.024230
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.609024
+[t-SNE] KL divergence after 1000 iterations: 1.106026
+0: 123th value=4.065644264221191
+1: 54th value=3.9583942890167236
+2: 118th value=4.252909183502197
+3: 64th value=3.7206997871398926
+4: 83th value=3.765202760696411
+5: 0th value=2.943563461303711
+6: 104th value=4.21288537979126
+7: 60th value=3.742565631866455
+8: 77th value=3.685720443725586
+9: 8th value=3.747086524963379
+11: 66th value=3.4163646697998047
+12: 12th value=3.898599863052368
+13: 110th value=4.05374002456665
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.071s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.984621
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.254379
+[t-SNE] KL divergence after 1000 iterations: 1.113290
+0: 130th value=4.256202697753906
+1: 46th value=3.6772425174713135
+2: 106th value=4.006146430969238
+3: 62th value=3.783241033554077
+4: 83th value=3.9215805530548096
+5: 1th value=3.165956974029541
+6: 97th value=3.8907501697540283
+7: 71th value=4.031585216522217
+8: 73th value=3.7262721061706543
+9: 6th value=3.8275301456451416
+11: 53th value=3.343463182449341
+12: 11th value=3.669720411300659
+13: 120th value=4.3331074714660645
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.068s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.993364
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.068573
+[t-SNE] KL divergence after 1000 iterations: 1.055477
+0: 133th value=4.233085632324219
+1: 36th value=3.5589027404785156
+2: 125th value=4.341976165771484
+3: 57th value=3.4675722122192383
+4: 79th value=3.7253761291503906
+5: 0th value=2.8241078853607178
+6: 88th value=3.9710614681243896
+7: 73th value=4.183533191680908
+8: 74th value=3.6832590103149414
+9: 3th value=3.640005588531494
+11: 66th value=3.4751994609832764
+12: 6th value=2.7000539302825928
+13: 110th value=4.100722789764404
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.023345
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.861488
+[t-SNE] KL divergence after 1000 iterations: 1.097914
+0: 130th value=3.950775384902954
+1: 49th value=3.653632402420044
+2: 114th value=4.0096235275268555
+3: 63th value=3.97379732131958
+4: 85th value=3.757688522338867
+5: 3th value=3.2134697437286377
+6: 103th value=4.360978126525879
+7: 56th value=3.7097277641296387
+8: 79th value=3.731184720993042
+9: 3th value=3.263427257537842
+11: 73th value=3.6083719730377197
+12: 19th value=3.936832904815674
+13: 118th value=4.004288196563721
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.019975
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.480438
+[t-SNE] KL divergence after 1000 iterations: 1.063304
+0: 137th value=4.432388782501221
+1: 54th value=3.7937560081481934
+2: 110th value=3.8762166500091553
+3: 60th value=3.5257492065429688
+4: 73th value=3.5452218055725098
+5: 0th value=2.6840758323669434
+6: 97th value=4.112868785858154
+7: 64th value=3.8419952392578125
+8: 68th value=3.407270908355713
+9: 5th value=3.589127540588379
+11: 60th value=3.3201072216033936
+12: 17th value=3.771381378173828
+13: 109th value=3.8202176094055176
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.055023
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.972969
+[t-SNE] KL divergence after 1000 iterations: 1.078514
+0: 128th value=4.200098037719727
+1: 51th value=3.6178224086761475
+2: 122th value=4.259862899780273
+3: 60th value=3.3413307666778564
+4: 89th value=4.102659702301025
+5: 0th value=2.872767210006714
+6: 107th value=4.4482550621032715
+7: 70th value=3.959735155105591
+8: 70th value=3.611341953277588
+9: 7th value=3.714801073074341
+11: 65th value=3.432358980178833
+12: 16th value=3.919431447982788
+13: 118th value=4.130396842956543
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.078s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.046204
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.659676
+[t-SNE] KL divergence after 1000 iterations: 1.067372
+0: 129th value=4.363836765289307
+1: 37th value=3.415172576904297
+2: 116th value=4.230737686157227
+3: 53th value=3.3489437103271484
+4: 78th value=3.7031195163726807
+5: 0th value=2.694436550140381
+6: 108th value=4.501272678375244
+7: 61th value=3.641765594482422
+8: 76th value=3.690641164779663
+9: 9th value=4.266047477722168
+11: 72th value=3.4137895107269287
+12: 18th value=4.549605846405029
+13: 125th value=4.069869041442871
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.080s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.054833
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.782356
+[t-SNE] KL divergence after 1000 iterations: 1.100638
+0: 128th value=4.157159328460693
+1: 42th value=3.700523614883423
+2: 110th value=4.222658634185791
+3: 61th value=3.541109800338745
+4: 80th value=3.7990198135375977
+5: 3th value=3.0158042907714844
+6: 102th value=4.026426792144775
+7: 74th value=4.225860118865967
+8: 76th value=3.7808094024658203
+9: 5th value=3.612525463104248
+11: 82th value=3.6506266593933105
+12: 17th value=4.399911403656006
+13: 111th value=4.120420932769775
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.068s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.082596
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.296524
+[t-SNE] KL divergence after 1000 iterations: 1.114128
+0: 130th value=4.343371868133545
+1: 45th value=3.6160128116607666
+2: 113th value=3.9882428646087646
+3: 62th value=3.6431961059570312
+4: 73th value=3.6853880882263184
+5: 1th value=2.8296544551849365
+6: 103th value=4.436309814453125
+7: 63th value=3.854687452316284
+8: 80th value=3.774254083633423
+9: 4th value=3.6644136905670166
+11: 78th value=3.6945879459381104
+12: 13th value=3.9060912132263184
+13: 111th value=3.79249906539917
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.059053
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.541763
+[t-SNE] KL divergence after 1000 iterations: 1.106824
+0: 129th value=4.313490390777588
+1: 57th value=3.9295475482940674
+2: 126th value=4.537021636962891
+3: 55th value=3.420456886291504
+4: 78th value=3.907998561859131
+5: 0th value=2.821655035018921
+6: 102th value=4.265327453613281
+7: 72th value=3.8665990829467773
+8: 74th value=3.7561419010162354
+9: 6th value=3.5488929748535156
+11: 70th value=3.5704152584075928
+12: 13th value=3.760186195373535
+13: 123th value=4.248310565948486
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.060s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.050149
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.734085
+[t-SNE] KL divergence after 1000 iterations: 1.095836
+0: 132th value=4.309903144836426
+1: 64th value=4.124423503875732
+2: 111th value=4.043017387390137
+3: 54th value=3.566711902618408
+4: 91th value=3.8410799503326416
+5: 0th value=2.6506078243255615
+6: 102th value=4.422333240509033
+7: 73th value=4.029065132141113
+8: 79th value=3.667846441268921
+9: 5th value=3.7845499515533447
+11: 73th value=3.4822118282318115
+12: 16th value=3.9614505767822266
+13: 113th value=3.834942102432251
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.070s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 0.996950
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.453323
+[t-SNE] KL divergence after 1000 iterations: 1.103423
+0: 127th value=4.099936008453369
+1: 68th value=4.07760763168335
+2: 124th value=4.322331428527832
+3: 59th value=3.6219704151153564
+4: 95th value=4.234982967376709
+5: 0th value=2.9353885650634766
+6: 101th value=4.257589340209961
+7: 74th value=4.182269096374512
+8: 72th value=3.64666748046875
+9: 6th value=3.56173038482666
+11: 76th value=3.6187870502471924
+12: 9th value=3.2901151180267334
+13: 103th value=3.8662850856781006
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.045912
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.981857
+[t-SNE] KL divergence after 1000 iterations: 1.030000
+0: 131th value=4.341352939605713
+1: 61th value=3.812937021255493
+2: 128th value=4.260616302490234
+3: 62th value=3.66198992729187
+4: 91th value=4.034183025360107
+5: 0th value=2.9707751274108887
+6: 105th value=4.257946968078613
+7: 70th value=3.9466869831085205
+8: 69th value=3.401660203933716
+9: 5th value=3.573539972305298
+11: 81th value=3.675929546356201
+12: 16th value=4.165922164916992
+13: 121th value=4.103194713592529
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.087s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.057638
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.559219
+[t-SNE] KL divergence after 1000 iterations: 1.080843
+0: 128th value=4.003800868988037
+1: 39th value=3.6361887454986572
+2: 122th value=4.064863681793213
+3: 62th value=4.005450248718262
+4: 79th value=3.6690187454223633
+5: 0th value=2.821251153945923
+6: 101th value=4.4142746925354
+7: 61th value=3.89504337310791
+8: 76th value=3.8738934993743896
+9: 2th value=3.3852267265319824
+11: 56th value=3.1943225860595703
+12: 12th value=3.42515230178833
+13: 127th value=4.109096527099609
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.081s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.078602
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.720444
+[t-SNE] KL divergence after 1000 iterations: 1.123913
+0: 130th value=4.076016426086426
+1: 35th value=3.4502458572387695
+2: 108th value=3.8170995712280273
+3: 62th value=3.8449368476867676
+4: 72th value=3.606809616088867
+5: 0th value=2.8513219356536865
+6: 102th value=4.176319599151611
+7: 70th value=3.8571410179138184
+8: 73th value=3.6015844345092773
+9: 3th value=3.475836753845215
+11: 66th value=3.349438190460205
+12: 20th value=5.293798446655273
+13: 116th value=4.061268329620361
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.071s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.067981
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.062744
+[t-SNE] KL divergence after 1000 iterations: 1.084425
+0: 122th value=3.9028732776641846
+1: 33th value=3.2097978591918945
+2: 121th value=4.400820732116699
+3: 59th value=3.751199960708618
+4: 87th value=3.6929092407226562
+5: 0th value=2.9839959144592285
+6: 95th value=3.8889026641845703
+7: 76th value=4.210967063903809
+8: 80th value=3.860473871231079
+9: 0th value=2.898873805999756
+11: 63th value=3.4002304077148438
+12: 16th value=4.157134056091309
+13: 118th value=3.860590934753418
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.081s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.086562
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.820351
+[t-SNE] KL divergence after 1000 iterations: 1.079216
+0: 121th value=3.9532623291015625
+1: 51th value=3.724909782409668
+2: 113th value=4.207086086273193
+3: 52th value=3.4126439094543457
+4: 72th value=3.576465606689453
+5: 0th value=2.8699426651000977
+6: 92th value=3.9711668491363525
+7: 64th value=3.8668622970581055
+8: 73th value=3.622532367706299
+9: 5th value=3.4348349571228027
+11: 75th value=3.6422133445739746
+12: 17th value=4.125609397888184
+13: 116th value=4.0182414054870605
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.075s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.065543
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.944969
+[t-SNE] KL divergence after 1000 iterations: 1.082198
+0: 129th value=4.151837348937988
+1: 58th value=3.819654703140259
+2: 114th value=4.02951717376709
+3: 56th value=3.6580393314361572
+4: 86th value=3.8402998447418213
+5: 0th value=2.76404070854187
+6: 96th value=3.8676512241363525
+7: 64th value=3.856132984161377
+8: 78th value=3.748379945755005
+9: 2th value=3.290156364440918
+11: 83th value=3.558854579925537
+12: 11th value=3.3490498065948486
+13: 120th value=4.068109512329102
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.056s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.057219
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.622688
+[t-SNE] KL divergence after 1000 iterations: 1.065246
+0: 133th value=4.060624122619629
+1: 62th value=3.8252816200256348
+2: 110th value=4.261305332183838
+3: 64th value=3.934730291366577
+4: 79th value=3.5233120918273926
+5: 3th value=3.223126173019409
+6: 101th value=4.050008773803711
+7: 66th value=3.928278684616089
+8: 70th value=3.5742247104644775
+9: 6th value=3.440727710723877
+11: 71th value=3.4777255058288574
+12: 17th value=4.325526714324951
+13: 107th value=3.8025717735290527
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.089s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.048697
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.330551
+[t-SNE] KL divergence after 1000 iterations: 1.096109
+0: 133th value=4.066617488861084
+1: 53th value=3.8502864837646484
+2: 117th value=4.174711227416992
+3: 65th value=3.988496780395508
+4: 84th value=3.6944024562835693
+5: 0th value=2.6030893325805664
+6: 101th value=4.131204605102539
+7: 69th value=4.040048122406006
+8: 75th value=3.522170066833496
+9: 0th value=2.9373574256896973
+11: 73th value=3.324321746826172
+12: 10th value=3.5696702003479004
+13: 102th value=3.826282024383545
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.076s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.038357
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.409103
+[t-SNE] KL divergence after 1000 iterations: 1.047803
+0: 133th value=4.274237155914307
+1: 60th value=3.6997158527374268
+2: 120th value=4.173562526702881
+3: 57th value=3.5359795093536377
+4: 80th value=3.60898494720459
+5: 2th value=3.0748555660247803
+6: 104th value=4.173226833343506
+7: 71th value=3.920046091079712
+8: 77th value=3.6039326190948486
+9: 3th value=3.4586780071258545
+11: 74th value=3.284505844116211
+12: 18th value=4.159146785736084
+13: 122th value=4.015036582946777
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.067s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.051138
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.583977
+[t-SNE] KL divergence after 1000 iterations: 1.074214
+0: 134th value=4.170503616333008
+1: 60th value=3.7764573097229004
+2: 122th value=3.985464334487915
+3: 65th value=3.8978116512298584
+4: 90th value=4.067111015319824
+5: 1th value=2.7344720363616943
+6: 109th value=4.605325698852539
+7: 71th value=4.06158971786499
+8: 70th value=3.295978307723999
+9: 2th value=3.3051304817199707
+11: 82th value=3.639725923538208
+12: 14th value=3.231234073638916
+13: 109th value=3.698621988296509
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.092429
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.908951
+[t-SNE] KL divergence after 1000 iterations: 1.076846
+0: 132th value=4.23484468460083
+1: 49th value=3.6322576999664307
+2: 120th value=4.099382400512695
+3: 54th value=3.516881227493286
+4: 86th value=3.820976495742798
+5: 1th value=2.585550308227539
+6: 103th value=4.04107141494751
+7: 68th value=4.1493024826049805
+8: 78th value=3.4965944290161133
+9: 5th value=3.6501235961914062
+11: 79th value=3.5305988788604736
+12: 19th value=4.761133193969727
+13: 117th value=3.8418796062469482
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.085588
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.128601
+[t-SNE] KL divergence after 1000 iterations: 1.030081
+0: 131th value=4.022871494293213
+1: 62th value=3.7832589149475098
+2: 124th value=4.179817199707031
+3: 54th value=3.308018684387207
+4: 81th value=3.6072235107421875
+5: 7th value=3.2311456203460693
+6: 98th value=4.069376468658447
+7: 72th value=4.219979286193848
+8: 87th value=3.8295810222625732
+9: 8th value=3.762070894241333
+11: 80th value=3.418255090713501
+12: 21th value=6.023538112640381
+13: 121th value=3.892237901687622
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.071s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.079397
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.225327
+[t-SNE] KL divergence after 1000 iterations: 1.103345
+0: 134th value=4.345696449279785
+1: 52th value=3.6918728351593018
+2: 114th value=3.9264309406280518
+3: 58th value=3.6500000953674316
+4: 69th value=3.2288873195648193
+5: 0th value=2.9478540420532227
+6: 101th value=4.183870315551758
+7: 74th value=4.247925281524658
+8: 78th value=3.5227956771850586
+9: 0th value=2.986347198486328
+11: 73th value=3.2166218757629395
+12: 19th value=4.2706804275512695
+13: 115th value=3.7190446853637695
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.076s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.091110
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 69.928085
+[t-SNE] KL divergence after 1000 iterations: 1.066895
+0: 139th value=4.322404384613037
+1: 63th value=3.7580244541168213
+2: 108th value=4.015632152557373
+3: 62th value=3.6480753421783447
+4: 86th value=3.6205697059631348
+5: 3th value=2.9167683124542236
+6: 101th value=4.241291046142578
+7: 64th value=3.891465663909912
+8: 81th value=3.750534772872925
+9: 4th value=3.6120922565460205
+11: 95th value=3.8505356311798096
+12: 17th value=3.7461416721343994
+13: 113th value=3.8342032432556152
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.079s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.066549
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.860176
+[t-SNE] KL divergence after 1000 iterations: 1.080128
+0: 137th value=4.1464033126831055
+1: 61th value=3.81183123588562
+2: 119th value=4.119730472564697
+3: 55th value=3.577174425125122
+4: 82th value=3.6074912548065186
+5: 10th value=3.297489881515503
+6: 107th value=4.306881904602051
+7: 64th value=3.898599147796631
+8: 81th value=3.622131109237671
+9: 5th value=3.338392496109009
+11: 83th value=3.6902668476104736
+12: 20th value=5.008796691894531
+13: 112th value=3.8324668407440186
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.074s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.068925
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.815132
+[t-SNE] KL divergence after 1000 iterations: 1.113328
+0: 127th value=4.164812088012695
+1: 61th value=3.7380101680755615
+2: 117th value=4.174736022949219
+3: 66th value=4.152671813964844
+4: 71th value=3.597961664199829
+5: 4th value=3.0182271003723145
+6: 107th value=4.527483940124512
+7: 59th value=3.7094690799713135
+8: 81th value=3.629788637161255
+9: 11th value=3.688124656677246
+11: 87th value=3.526531457901001
+12: 15th value=4.485250473022461
+13: 118th value=4.076574325561523
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.073s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.070936
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.657509
+[t-SNE] KL divergence after 1000 iterations: 1.050268
+0: 125th value=4.127415180206299
+1: 55th value=3.7341861724853516
+2: 116th value=4.121242046356201
+3: 62th value=3.879227876663208
+4: 75th value=3.5410940647125244
+5: 1th value=2.8302295207977295
+6: 98th value=4.163617134094238
+7: 69th value=4.050662517547607
+8: 69th value=3.2741153240203857
+9: 8th value=4.034189701080322
+11: 81th value=3.534503698348999
+12: 14th value=3.828486442565918
+13: 114th value=3.8510372638702393
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.072s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.006542
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 71.115730
+[t-SNE] KL divergence after 1000 iterations: 1.065306
+0: 122th value=3.950497627258301
+1: 58th value=3.821416139602661
+2: 120th value=4.236318111419678
+3: 63th value=3.9691030979156494
+4: 67th value=3.3784425258636475
+5: 0th value=2.701387405395508
+6: 98th value=4.092543125152588
+7: 63th value=3.63592791557312
+8: 76th value=3.404891014099121
+9: 3th value=3.1432669162750244
+11: 89th value=3.7170827388763428
+12: 14th value=3.8940701484680176
+13: 95th value=3.4417271614074707
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.057s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.042051
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.991241
+[t-SNE] KL divergence after 1000 iterations: 1.103338
+0: 131th value=4.3087897300720215
+1: 60th value=3.8295412063598633
+2: 119th value=4.032353401184082
+3: 60th value=3.674501895904541
+4: 80th value=3.6423659324645996
+5: 1th value=2.7662570476531982
+6: 103th value=4.097358226776123
+7: 52th value=3.5910136699676514
+8: 72th value=3.4275400638580322
+9: 1th value=2.933058500289917
+11: 71th value=3.4143993854522705
+12: 16th value=3.570462703704834
+13: 123th value=4.0008158683776855
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.058s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.009029
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.103638
+[t-SNE] KL divergence after 1000 iterations: 1.058253
+0: 131th value=4.151113986968994
+1: 53th value=3.6578261852264404
+2: 118th value=4.056682586669922
+3: 63th value=4.1355109214782715
+4: 81th value=3.5607030391693115
+5: 1th value=2.6564407348632812
+6: 104th value=4.097301483154297
+7: 57th value=3.702059745788574
+8: 60th value=3.1570887565612793
+9: 17th value=4.218287467956543
+11: 90th value=3.813530921936035
+12: 20th value=4.487873554229736
+13: 101th value=3.6645143032073975
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 2042 samples in 0.001s...
+[t-SNE] Computed neighbors for 2042 samples in 0.057s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2000 / 2042
+[t-SNE] Computed conditional probabilities for sample 2042 / 2042
+[t-SNE] Mean sigma: 1.075472
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 70.267502
+[t-SNE] KL divergence after 1000 iterations: 1.038382
+0: 136th value=4.436932563781738
+1: 62th value=4.057207107543945
+2: 126th value=4.088680267333984
+3: 57th value=3.738623857498169
+4: 77th value=3.5923478603363037
+5: 5th value=3.1473560333251953
+6: 105th value=4.215307712554932
+7: 68th value=3.9731409549713135
+8: 86th value=3.6325252056121826
+9: 12th value=3.959132194519043
+11: 78th value=3.4522573947906494
+12: 14th value=3.871610641479492
+13: 103th value=3.6147842407226562

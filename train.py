@@ -10,7 +10,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-from typing import Dict
+from typing import Dict, Literal
 
 from ais_dataset import AisDataReader
 from model.simple_transformer import SimpleTransformer
@@ -38,18 +38,19 @@ NUM_SAMPLE_FEATURES = 4
 
 # 模型超参数
 RANDOM_SEED = 2024
-MARGIN = 16
-eta_cent = 3e-2
+MARGIN = 24
+eta_cent = 5e-2
 eta_cls = 1
-eta_margin = 3e-2
+eta_margin = 0.1
 
-num_epoch = 10
+num_epoch = 50
 batch_size = 8
-learning_rate = 1e-3
-wd = 5e-02
+learning_rate = 5e-4
+wd = 0.05
 encoder_layer_num = 6
 features_dim = 128
 DEVICES = [i for i in range(torch.cuda.device_count())]
+DEVICES = [0, 1, 2, 3]
 
 # model = SimpleTransformer(input_dim=NUM_SAMPLE_FEATURES, feature_dim=features_dim, num_heads=4, num_layers=encoder_layer_num, num_classes=NUM_CLASS)
 model = SimpleCNN(num_class=NUM_CLASS, features_dim=features_dim).to(DEVICES[0])
@@ -64,6 +65,7 @@ def initialize_weights(model):
     for m in model.modules():
         if isinstance(m, nn.Conv2d):
             init.kaiming_normal_(m.weight, mode='fan_in', nonlinearity='relu')
+            # init.xavier_normal_(m.weight)
             if m.bias is not None:
                 init.zeros_(m.bias)
         elif isinstance(m, nn.Linear):
@@ -191,8 +193,9 @@ class Trainer:
         return torch.Tensor(results).cuda()
 
     
-    def run_epoch(self, model, loader, epoch:int, is_train:bool):
+    def run_epoch(self, model, loader, epoch:int, stage:Literal['train', 'valid', 'test']):
         devices = self.devices
+        is_train = stage == 'train'
         model.train(is_train)
         pbar = tqdm(enumerate(loader), total=len(loader))
         # losses = []
@@ -201,7 +204,7 @@ class Trainer:
             x = x.to(devices[0])
             x = bacth_STFT(x, N_FFT, HOP_LENGTH, WINDOM_LENGTH, torch.hamming_window(WINDOM_LENGTH).to(devices[0]), verbose=False)
             y = y.to(devices[0])
-            features, logits = model(x)
+            features, logits, crude_features = model(x)
             self.tsne.append(features.detach().cpu().numpy(), y.detach().cpu().numpy()) # 保存训练/测试样本准备t-sne
             loss_cls = criterion_cls(logits, y)
             loss_cent = criterion_cent(features, y)
@@ -219,13 +222,16 @@ class Trainer:
                 for param in criterion_cent.parameters():
                     param.grad.data *= (1. / eta_cent) # multiple (1./alpha) in order to remove the effect of alpha on updating centers
                 optimizer_cent.step()
-                pbar.set_description(f"epoch {epoch} Training... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch} {stage + 'ing'}... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
             else:
+                # features = torch.hstack((features, crude_features))
+                # U, S, V = torch.pca_lowrank(features, q=features_dim)
+                # features = torch.matmul(features, V[:, :features_dim])
                 predict_labels = self.semantic_classify(criterion_cent.get_centers(), features)
                 # TODO: 目前是单未知类的替换
                 predict_labels = torch.where(predict_labels == -1, UNSEEN_CLASS[0] if len(UNSEEN_CLASS) > 0 else -1, predict_labels)
                 num_correct += torch.sum(predict_labels == y)
-                pbar.set_description(f"epoch {epoch} Testing.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch} {stage + 'ing'}.... iter {i}: loss {loss.item():.5f}. lr {learning_rate:e} acc {num_correct / num_total: .4f}")
 
         if is_train:
             self.tsne.append(criterion_cent.get_centers().detach().cpu().numpy(), np.arange(NUM_CLASS))
@@ -239,11 +245,13 @@ class Trainer:
         epoch_pbar = tqdm(range(num_epoch), desc=f"开始训练")
         for epoch in epoch_pbar:
             epoch_pbar.set_description(f"训练的第{epoch}个epoch")
-            self.run_epoch(self.model, train_loader, epoch=epoch, is_train=True)
-            self.run_epoch(self.model, valid_loader, 0 , is_train=False)
+            self.run_epoch(self.model, train_loader, epoch=epoch, stage='train')
+            self.run_epoch(self.model, valid_loader, 0 , stage='valid')
+            if epoch % 10 == 0:
+                self.run_epoch(self.model, test_loader, epoch / 10 , stage='test')
 
     def test(self):
-        self.run_epoch(self.model, test_loader, 0 , is_train=False)
+        self.run_epoch(self.model, test_loader, 0 , stage='test')
         
 
 if __name__ == '__main__':

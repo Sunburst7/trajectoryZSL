@@ -62,7 +62,7 @@ class AisDataReader():
                     new_data[:cur_seq_len, :] = single_sample
                     new_data[cur_seq_len:, 0:2] = single_sample[-1, 0:2]
                     single_sample = new_data
-                norm_single_sample = normalized(single_sample)
+                norm_single_sample = normalize_to_range(single_sample, -1, 1)
                 if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(norm_single_sample)):
                     continue
                 arr.append(single_sample)

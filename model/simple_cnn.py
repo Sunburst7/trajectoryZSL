@@ -53,4 +53,4 @@ class SimpleCNN(nn.Module):
         # x = x1
         features = self.mlp(x)
         cls_logits = self.cls_head(features)
-        return features, cls_logits
+        return features, cls_logits, x

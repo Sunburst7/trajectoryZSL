@@ -23,7 +23,7 @@ class Tsne():
 
     def cal_and_save(self, path):
         result = self.tsne.fit_transform(self.vec_array)
-        colors = ['C' + str(i) for i in range(self.num_class)]
+        colors = plt.cm.tab20.colors
         # 归一化处理
         scaler = preprocessing.MinMaxScaler(feature_range=(-1,1))
         result = scaler.fit_transform(result)
