@@ -246,7 +246,7 @@ class Trainer:
         for epoch in epoch_pbar:
             epoch_pbar.set_description(f"训练的第{epoch}个epoch")
             self.run_epoch(self.model, train_loader, epoch=epoch, stage='train')
-            self.run_epoch(self.model, valid_loader, 0 , stage='valid')
+            self.run_epoch(self.model, valid_loader, epoch=epoch, stage='valid')
             if epoch % 10 == 0:
                 self.run_epoch(self.model, test_loader, epoch / 10 , stage='test')
 
