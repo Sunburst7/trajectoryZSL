@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from .basic import BasicModel
+
 class ConvLayer(nn.Module):
     def __init__(self, in_channels, out_channels, kernel, padding, dilation) -> None:
         super(ConvLayer, self).__init__()
@@ -14,9 +16,9 @@ class ConvLayer(nn.Module):
         return self.max_pool(self.relu(self.bn(self.conv(x))))
 
 
-class SimpleCNN(nn.Module):
-    def __init__(self, num_class, features_dim) -> None:
-        super(SimpleCNN, self).__init__()
+class SimpleCNN(BasicModel):
+    def __init__(self, num_class, features_dim, seen_classes) -> None:
+        super(SimpleCNN, self).__init__(seen_classes=seen_classes, features_dim=features_dim)
         self.DCL_1 = nn.Sequential(
             ConvLayer(8, 16, (3, 3), (1, 1), 1),
             ConvLayer(16, 32, (3, 3), (1, 1), 1),
@@ -43,6 +45,13 @@ class SimpleCNN(nn.Module):
             nn.Linear(512, features_dim),
             nn.PReLU()
         )
+        # self.mlp = nn.Sequential(
+        #     nn.Linear(2304, 512),
+        #     nn.PReLU(),
+        #     nn.Linear(512, features_dim),
+        #     nn.PReLU()
+        # )
+        # self.pool1d = nn.AvgPool1d(kernel_size=29, stride=29)
         self.cls_head = nn.Linear(features_dim, num_class)
 
     def forward(self, x):
@@ -50,7 +59,11 @@ class SimpleCNN(nn.Module):
         x2 = self.DCL_2(x)
         x3 = self.DCL_3(x)
         x = torch.hstack((x1, x2, x3))
+        # x = torch.hstack((x1, x2))
         # x = x1
         features = self.mlp(x)
         cls_logits = self.cls_head(features)
+
+        # x = torch.hstack((x, features))
+        # x = self.pool1d(x.unsqueeze(1)).squeeze(1)
         return features, cls_logits, x

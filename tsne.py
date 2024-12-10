@@ -2,16 +2,18 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
+from typing import Dict, Literal
 
 class Tsne():
-    def __init__(self, feature_dim, num_class, seen_class) -> None:
+    def __init__(self, feature_dim, num_class, seen_class, unseen_class) -> None:
         # t-SNE降维处理
         self.feature_dim = feature_dim
         self.num_class = num_class
         self.seen_class = seen_class
+        self.unseen_class = unseen_class
         self.vec_array = np.ndarray((0, feature_dim))
         self.label_array = np.ndarray((0))
-        self.tsne = TSNE(n_components=2, verbose=1, random_state=42)
+        self.tsne = TSNE(n_components=2, perplexity=50, verbose=0, random_state=42)
     
     def append(self, samples: np.ndarray, labels: np.ndarray):
         self.vec_array = np.vstack((self.vec_array, samples))
@@ -21,7 +23,7 @@ class Tsne():
         self.vec_array = np.ndarray((0, self.feature_dim))
         self.label_array = np.ndarray((0))
 
-    def cal_and_save(self, path):
+    def cal_and_save(self, path, stage:Literal['train', 'valid', 'test']):
         result = self.tsne.fit_transform(self.vec_array)
         colors = plt.cm.tab20.colors
         # 归一化处理
@@ -34,19 +36,29 @@ class Tsne():
         center_label = self.label_array[-self.num_class:]
         self.vec_array = self.vec_array[:-self.num_class]
         self.label_array = self.label_array[:-self.num_class]
-        for label_idx in self.seen_class:
-            ax.scatter(
-                self.vec_array[self.label_array==label_idx, 0],
-                self.vec_array[self.label_array==label_idx, 1],
-                c=colors[label_idx],
-                s=5,
-                alpha=0.4,
-            )
+        if stage == 'test':
+            for label_idx in self.unseen_class:
+                ax.scatter(
+                    self.vec_array[self.label_array==label_idx, 0],
+                    self.vec_array[self.label_array==label_idx, 1],
+                    color=colors[label_idx],
+                    s=5,
+                    alpha=0.4,
+                )
+        else:
+            for label_idx in self.seen_class:
+                ax.scatter(
+                    self.vec_array[self.label_array==label_idx, 0],
+                    self.vec_array[self.label_array==label_idx, 1],
+                    color=colors[label_idx],
+                    s=5,
+                    alpha=0.4,
+                )
         for label_idx in self.seen_class:
             ax.scatter(
                 center_vec[center_label==label_idx, 0],
                 center_vec[center_label==label_idx, 1],
-                c=colors[label_idx],
+                color=colors[label_idx],
                 s=50, marker='*'
             )
         plt.legend([str(i) for i in self.seen_class], loc='upper right')
