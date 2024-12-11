@@ -12,7 +12,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from typing import Dict, Literal
-from lookhead import Lookahead
 import optuna
 from optuna import Trial
 
@@ -21,13 +20,15 @@ from model.iTransformer import iTransformer
 from model.simple_cnn import SimpleCNN
 from loss.center_loss import CenterLoss
 from loss.margin_loss import MarginLoss
-from mahalanobis import MahalanobisLayer
-from tsne import Tsne
+from util.lookhead import Lookahead
+from util.mahalanobis import MahalanobisLayer
+from util.tsne import Tsne
+from util.early_stop import EarlyStopping
 from config.deafault import get_cfg_defaults 
 
 
 cfg = get_cfg_defaults()
-# cfg.merge_from_file("./config/experiment.yaml")
+# cfg.merge_from_file("./config/test.yaml")
 cfg.freeze()
 print(cfg)
 
@@ -80,6 +81,7 @@ class Trainer:
         self.devices = devices
         self.model = model.to(devices[0])
         self.tsne = Tsne(cfg.model.d_center, num_class=cfg.dataset.num_class,seen_class=cfg.dataset.seen_class, unseen_class=cfg.dataset.unseen_class)
+        self.early_stopping = EarlyStopping(patience=cfg.model.patience, verbose=True)
         initialize_weights(model)
     
     def semantic_classify(self, centers: nn.Parameter, features: torch.Tensor):
@@ -126,7 +128,6 @@ class Trainer:
             x = x.to(devices[0])
             y = y.to(devices[0])
             features, logits = model.module.classification(x, None)
-            U, S, Vh = torch.svd(features)
             self.tsne.append(features.detach().cpu().numpy(), y.detach().cpu().numpy()) # 保存训练/测试样本准备t-sne
             loss_cls = criterion_cls(logits, y)
             loss_cent = criterion_cent(features, y)
@@ -154,7 +155,7 @@ class Trainer:
                 # num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
                 # print(f"epoch {epoch} {stage + 'ing'}.... iter {i}: loss {loss.item():.5f}. acc {num_correct / num_total: .4f}")
                 pbar.set_description(f"epoch {epoch} {stage + 'ing'}.... iter {i}: loss {loss.item():.5f}. acc {num_correct / num_total: .4f}")
-
+                
 
         self.tsne.append(criterion_cent.get_centers().detach().cpu().numpy(), np.arange(cfg.dataset.num_class))
         self.tsne.cal_and_save(os.path.join(cfg.root_project_path, "temp", f"epoch_{epoch}_{stage}_tsne.png"), stage)
@@ -166,6 +167,12 @@ class Trainer:
             # 每个epoch更新已知类的阈值，清空保存的距离（聚类中心更新需要重新计算）
             self.model.module.update_thresholds()
             self.model.module.dist_clearing()
+        
+        if stage == 'valid':
+            self.early_stopping(-num_correct / num_total, None, None)
+            if self.early_stopping.early_stop:
+                tqdm.write("Early stopping")
+                return num_correct / num_total
 
         return num_correct / num_total
 

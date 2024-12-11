@@ -6,13 +6,13 @@ import random
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from utils import standardized, normalized, normalize_to_range
+from util.utils import standardized, normalized, normalize_to_range
 
 
 class AisDataReader():
     """航迹数据集
     """
-    def __init__(self, dpath, seen_class:List[int], unseen_class:List[int], seq_len=1024, num_feature=8, rate=0.7, is_gzsl=False) -> None:
+    def __init__(self, dpath, seen_class:List[int], unseen_class:List[int], seq_len=1024, num_feature=4, rate=0.7, is_gzsl=False) -> None:
         super().__init__()
         self.seen_class = seen_class
         self.unseen_class = unseen_class
@@ -44,6 +44,39 @@ class AisDataReader():
             pickle.dump((self.X_unknown_test, self.Y_unknown_test), f)
 
     def load_data(self):
+        cnt = 0
+        pbar = tqdm(range(self.num_class), leave=True, position=0, desc="读取原始数据文件...")
+        for i in pbar:
+            arr = []
+            dir_name = os.path.join(self.dpath, str(i))
+            for file_name in os.listdir(dir_name):
+                single_sample = pd.read_csv(os.path.join(dir_name, file_name), sep=' ', names=["time", "lng", "lat", "sog", "cog"]).drop(columns=['time']).to_numpy(dtype=np.float32)
+                # [seq_len, 4]
+                # 找到速度中第一个不为0的位置
+                non_zero_index = np.argmax(single_sample[:, 2] != 0)
+                end_index = min(non_zero_index + self.seq_len, len(single_sample))
+                single_sample = single_sample[non_zero_index:end_index]
+                cur_seq_len = single_sample.shape[0]
+                if cur_seq_len < self.seq_len:
+                    new_data = np.zeros((self.seq_len, single_sample.shape[1]))
+                    new_data[:cur_seq_len, :] = single_sample
+                    new_data[cur_seq_len:, 0:2] = single_sample[-1, 0:2]
+                    single_sample = new_data
+                # norm_single_sample = normalize_to_range(single_sample, -1, 1)
+                # if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(norm_single_sample)):
+                #     continue
+                arr.append(single_sample)
+            self.raw_data_map[i] = np.array(arr)
+            cnt += len(arr)
+            self.cls_count.append(cnt)
+            self.X = np.vstack((self.X, self.raw_data_map[i]))
+            self.Y = np.hstack((self.Y, [i] * len(arr)))
+            pbar.set_description(desc=f"正在处理第{i}类, 总计共{cnt}个样本, shape={self.raw_data_map[i].shape}", refresh=True)
+
+        for k, samples in self.raw_data_map.items():
+            print(f"the {k}-th class has {len(samples)} samples")
+
+    def load_data_with_fft(self):
         cnt = 0
         pbar = tqdm(range(self.num_class), leave=True, position=0, desc="读取原始数据文件...")
         for i in pbar:
@@ -126,7 +159,7 @@ if __name__ == '__main__':
     from config.deafault import get_cfg_defaults 
 
     cfg = get_cfg_defaults()
-    # cfg.merge_from_file("./config/experiment.yaml")
+    cfg.merge_from_file("./config/TFModel.yaml")
     cfg.freeze()
     print(cfg)
 

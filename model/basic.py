@@ -2,9 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from typing import Dict
-from mahalanobis import MahalanobisLayer
-import os
-import pickle
+from util.mahalanobis import MahalanobisLayer
+from tqdm import tqdm
 
 class BasicModel(nn.Module):
     def __init__(self, seen_class, features_dim) -> None:
@@ -21,7 +20,7 @@ class BasicModel(nn.Module):
             # 3-sigma
             outlier_indics = torch.where(distances[cls_id] >= 3 * distances_std[cls_id])[0]
             outlier_index = outlier_indics[0].item()
-            print(f"{cls_id}: {outlier_index}th value={distances[cls_id][outlier_index]}")
+            tqdm.write(f"{cls_id}: {outlier_index}th value={distances[cls_id][outlier_index]}")
             self.known_thresholds[cls_id] = distances[cls_id][outlier_index]
             # 分位数
             # self.known_thresholds[cls_id] =  distances[cls_id][int(0.95 * distances[cls_id].shape[0])]
