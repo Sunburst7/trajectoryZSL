@@ -1,5 +1,2 @@
 dataset:
   seq_len: 1024
-
-model:
-  d_center: 16

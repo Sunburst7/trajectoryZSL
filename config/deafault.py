@@ -29,7 +29,7 @@ _C.model.num_epoch = 70
 _C.model.batch_size = 16
 _C.model.wd = 0.1
 _C.model.dropout = 0.1
-_C.model.devices = [0, 1, 2, 3] # [i for i in range(torch.cuda.device_count())]
+_C.model.devices = [0] # [i for i in range(torch.cuda.device_count())]
 
 _C.model.seq_len = _C.dataset.seq_len
 _C.model.pred_len = 0
@@ -39,8 +39,10 @@ _C.model.d_model = 1024
 _C.model.n_heads = 8
 _C.model.d_ff = 128 # dimension of model
 _C.model.e_layers = 2
+_C.model.num_feature = _C.dataset.num_feature
 _C.model.enc_in = _C.dataset.num_feature # encoder input size
 _C.model.num_class = _C.dataset.num_class
+_C.model.normalize_before = True
 
 def get_cfg_defaults():
   """Get a yacs CfgNode object with default values for my_project."""
