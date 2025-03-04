@@ -8,6 +8,7 @@ from collections import OrderedDict
 import numpy as np
 from typing import List
 from torchvision.models.vision_transformer import vit_b_16
+from util.utils import initialize_weights
 
 class ComplexDropout(nn.Module):
     def __init__(self, p=0.5):
@@ -45,15 +46,21 @@ class ComplexLayerNorm(nn.Module):
         # 重新组合实部和虚部
         return torch.view_as_complex(torch.stack([real_normed, imag_normed], dim=-1))
     
-class CGELU(nn.Module):
+class ComplexReLU(nn.Module):
     def __init__(self):
-        super(CGELU, self).__init__()
-        self.gelu_1 = nn.GELU()
-        self.gelu_2 = nn.GELU()
+        super(ComplexReLU, self).__init__()
 
-    def forward(self, x):
-        x = torch.view_as_real(x)
-        return torch.view_as_complex(torch.stack([self.gelu_1(x[..., 0]), self.gelu_2(x[..., 1])], dim=-1))
+    def forward(self, z):
+        # z is a complex tensor: z = x + iy
+        x = z.real
+        y = z.imag
+        magnitude = torch.sqrt(x**2 + y**2)
+        
+        # Apply the smoothed ReLU-like transformation
+        real_part = 0.5 * (x + magnitude)
+        imag_part = 0.5 * y
+        
+        return torch.complex(real_part, imag_part)
 
 class ComplexLinear(nn.Module):
     def __init__(self, d_in, d_out, bias:bool = True):
@@ -110,6 +117,7 @@ class CrossAttention(nn.Module):
         super().__init__()
         self.attn = nn.MultiheadAttention(d_model, n_head, dropout)
         self.ln_1 = nn.LayerNorm(d_model)
+        self.ln_2 = nn.LayerNorm(d_model)
         self.mlp = nn.Sequential(OrderedDict([
             ("c_fc", nn.Linear(d_model, d_model * 4)),
             ("gelu", nn.GELU()),
@@ -120,17 +128,19 @@ class CrossAttention(nn.Module):
     def forward(self, x: torch.Tensor, query: torch.Tensor):
         self.attn_mask = self.attn_mask.to(dtype=x.dtype, device=x.device) if self.attn_mask is not None else None
         x = x + self.attn(query, x, x, need_weights=False, attn_mask=self.attn_mask)[0]
+        x = self.ln_1(x)
         x = x + self.mlp(x)
-        return self.ln_1(x)
+        return self.ln_2(x)
     
 class ComplexCrossAttention(nn.Module):
     def __init__(self, d_model: int, n_head: int, dropout: float = 0.1, attn_mask: torch.Tensor = None):
         super().__init__()
         self.attn = ComplexMultiheadAttention(d_model, n_head, dropout)
         self.ln_1 = ComplexLayerNorm(d_model)
+        self.ln_2 = ComplexLayerNorm(d_model)
         self.mlp = nn.Sequential(OrderedDict([
             ("c_fc", ComplexLinear(d_model, d_model * 4)),
-            ("gelu", CGELU()),
+            ("gelu", ComplexReLU()),
             ("c_proj", ComplexLinear(d_model * 4, d_model))
         ]))
         self.attn_mask = attn_mask
@@ -138,8 +148,21 @@ class ComplexCrossAttention(nn.Module):
     def forward(self, x: torch.Tensor, query: torch.Tensor):
         self.attn_mask = self.attn_mask.to(dtype=x.dtype, device=x.device) if self.attn_mask is not None else None
         x = x + self.attn(query, x, x)[0]
+        x = self.ln_1(x)
         x = x + self.mlp(x)
-        return self.ln_1(x)
+        return self.ln_2(x)
+    
+class PatchEmbed(nn.Module):
+    def __init__(self, seq_len, patch_size=8, in_chans=3, embed_dim=384):
+        super().__init__()
+        stride = patch_size // 2
+        num_patches = int((seq_len - patch_size) / stride + 1)
+        self.num_patches = num_patches
+        self.proj = nn.Conv1d(in_chans, embed_dim, kernel_size=patch_size, stride=stride)
+
+    def forward(self, x):
+        x_out = self.proj(x).flatten(2).transpose(1, 2)
+        return x_out
 
 class TFModel(nn.Module):
 
@@ -166,11 +189,13 @@ class TFModel(nn.Module):
 
 
         # Classifier head
+        self.time_weight = nn.Parameter(torch.randn((cfg.d_model * cfg.num_feature), dtype=torch.float32) * 0.02)
+        self.freq_weight = nn.Parameter(torch.randn((cfg.d_model * cfg.num_feature, 2), dtype=torch.float32) * 0.02)
         self.head = nn.Linear(cfg.d_model * cfg.num_feature, cfg.num_class)
 
         # Decoder
-        # self.act = F.gelu
-        # self.dropout = nn.Dropout(cfg.dropout)
+        self.act = F.gelu
+        self.dropout = nn.Dropout(cfg.dropout)
         # self.projection = nn.Linear(cfg.d_model * cfg.enc_in, cfg.num_class)
 
     def forward(self, x):
@@ -201,8 +226,9 @@ class TFModel(nn.Module):
         for t_multihead_attn, f_multihead_attn in zip(self.time_encoders, self.freq_encoders):
             x = t_multihead_attn(x, query=torch.fft.ifft(x_f).to(x.dtype))
             x_f = f_multihead_attn(x_f, query=torch.fft.fft(x))
-        return self.head(x)
-    
+        x = self.flat(x) * self.time_weight
+        x_f = self.flat(x) * torch.view_as_complex(self.freq_weight)
+        return self.head(self.dropout(self.act(x + torch.abs(x_f) / x_f.shape[-1])))
 
 if __name__ == "__main__":
     multihead_attn = CrossAttention(1024, 8, 0.1)

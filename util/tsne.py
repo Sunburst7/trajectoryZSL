@@ -13,7 +13,7 @@ class Tsne():
         self.unseen_class = unseen_class
         self.vec_array = np.ndarray((0, feature_dim))
         self.label_array = np.ndarray((0))
-        self.tsne = TSNE(n_components=2, perplexity=50, verbose=0, random_state=42)
+        self.tsne = TSNE(n_components=3, perplexity=40, verbose=0, random_state=42)
     
     def append(self, samples: np.ndarray, labels: np.ndarray):
         self.vec_array = np.vstack((self.vec_array, samples))
@@ -30,7 +30,8 @@ class Tsne():
         scaler = preprocessing.MinMaxScaler(feature_range=(-1,1))
         result = scaler.fit_transform(result)
 
-        fig, ax = plt.subplots()
+        fig = plt.figure()
+        ax = fig.add_subplot(projection='3d')
         ax.set_title('t-SNE process')
         center_vec = self.vec_array[-self.num_class:]
         center_label = self.label_array[-self.num_class:]
@@ -41,6 +42,7 @@ class Tsne():
                 ax.scatter(
                     self.vec_array[self.label_array==label_idx, 0],
                     self.vec_array[self.label_array==label_idx, 1],
+                    self.vec_array[self.label_array==label_idx, 2],
                     color=colors[label_idx],
                     s=5,
                     alpha=0.4,
@@ -50,6 +52,7 @@ class Tsne():
                 ax.scatter(
                     self.vec_array[self.label_array==label_idx, 0],
                     self.vec_array[self.label_array==label_idx, 1],
+                    self.vec_array[self.label_array==label_idx, 2],
                     color=colors[label_idx],
                     s=5,
                     alpha=0.4,
@@ -58,6 +61,7 @@ class Tsne():
             ax.scatter(
                 center_vec[center_label==label_idx, 0],
                 center_vec[center_label==label_idx, 1],
+                center_vec[center_label==label_idx, 2],
                 color=colors[label_idx],
                 s=50, marker='*'
             )

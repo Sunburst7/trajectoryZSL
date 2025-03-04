@@ -115,7 +115,7 @@ def info_nce(query, positive_key, negative_keys=None, temperature=0.1, reduction
         # Positive keys are the entries on the diagonal
         labels = torch.arange(len(query), device=query.device)
 
-    return F.cross_entropy(logits / temperature, labels, reduction=reduction)
+    return F.cross_entropy(torch.abs(logits) / temperature, labels, reduction=reduction) if torch.is_complex(logits) else F.cross_entropy(logits / temperature, labels, reduction=reduction) 
 
 
 def transpose(x):

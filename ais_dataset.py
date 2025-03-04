@@ -12,8 +12,20 @@ from util.utils import standardized, normalized, normalize_to_range
 class AisDataReader():
     """航迹数据集
     """
-    def __init__(self, dpath, seen_class:List[int], unseen_class:List[int], seq_len=1024, num_feature=4, rate=0.7, is_gzsl=False) -> None:
+    gps_type = {
+        '歼-10A':0,
+        '歼-10B':1,
+        '歼-10C':2,
+        '歼-11B':3,
+        '歼-11BS':4,
+        '歼-16':5,
+        '歼-20':6,
+        '苏-30':7
+    }
+
+    def __init__(self, dname, dpath, seen_class:List[int], unseen_class:List[int], seq_len=1024, num_feature=4, rate=0.7, is_gzsl=False) -> None:
         super().__init__()
+        self.dname = dname
         self.seen_class = seen_class
         self.unseen_class = unseen_class
         self.num_class = len(seen_class) + len(unseen_class)
@@ -21,15 +33,16 @@ class AisDataReader():
         self.raw_data_map = {}
         self.seq_len = seq_len
         self.num_feature = num_feature
-        self.rate = 0.7
+        self.rate = rate
         self.is_gzsl = is_gzsl
         self.X = np.ndarray((0, self.seq_len, self.num_feature), dtype=np.float32)
         self.Y = np.ndarray((0), dtype=np.int32)
         self.cls_count = [0]
+        self.interval = 100
 
-        self.load_data()
-        self.split_train_test()
-        self.split_unknown()
+        self.load_data_with_fft()
+        self.split_train_test(self.rate)
+        self.split_unknown(rate=0.5)
         pass
 
     def get_data(self):
@@ -46,67 +59,93 @@ class AisDataReader():
     def load_data(self):
         cnt = 0
         pbar = tqdm(range(self.num_class), leave=True, position=0, desc="读取原始数据文件...")
-        for i in pbar:
-            arr = []
-            dir_name = os.path.join(self.dpath, str(i))
-            for file_name in os.listdir(dir_name):
-                single_sample = pd.read_csv(os.path.join(dir_name, file_name), sep=' ', names=["time", "lng", "lat", "sog", "cog"]).drop(columns=['time']).to_numpy(dtype=np.float32)
-                # [seq_len, 4]
-                # 找到速度中第一个不为0的位置
-                non_zero_index = np.argmax(single_sample[:, 2] != 0)
-                end_index = min(non_zero_index + self.seq_len, len(single_sample))
-                single_sample = single_sample[non_zero_index:end_index]
-                cur_seq_len = single_sample.shape[0]
-                if cur_seq_len < self.seq_len:
-                    new_data = np.zeros((self.seq_len, single_sample.shape[1]))
-                    new_data[:cur_seq_len, :] = single_sample
-                    new_data[cur_seq_len:, 0:2] = single_sample[-1, 0:2]
-                    single_sample = new_data
-                # norm_single_sample = normalize_to_range(single_sample, -1, 1)
-                # if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(norm_single_sample)):
-                #     continue
-                arr.append(single_sample)
-            self.raw_data_map[i] = np.array(arr)
-            cnt += len(arr)
-            self.cls_count.append(cnt)
-            self.X = np.vstack((self.X, self.raw_data_map[i]))
-            self.Y = np.hstack((self.Y, [i] * len(arr)))
-            pbar.set_description(desc=f"正在处理第{i}类, 总计共{cnt}个样本, shape={self.raw_data_map[i].shape}", refresh=True)
+        if self.dname == 'ais':
+            for i in pbar:
+                arr = []
+                dir_name = os.path.join(self.dpath, str(i))
+                for file_name in os.listdir(dir_name):
+                    single_sample = pd.read_csv(os.path.join(dir_name, file_name), sep=' ', names=["time", "lng", "lat", "sog", "cog"]).drop(columns=['time']).to_numpy(dtype=np.float32)
+                    # [seq_len, 4]
+                    # 找到速度中第一个不为0的位置
+                    non_zero_index = np.argmax(single_sample[:, 2] != 0)
+                    end_index = min(non_zero_index + self.seq_len, len(single_sample))
+                    single_sample = single_sample[non_zero_index:end_index]
+                    cur_seq_len = single_sample.shape[0]
+                    if cur_seq_len < self.seq_len:
+                        new_data = np.zeros((self.seq_len, single_sample.shape[1]))
+                        new_data[:cur_seq_len, :] = single_sample
+                        new_data[cur_seq_len:, 0:2] = single_sample[-1, 0:2]
+                        single_sample = new_data
+                    # norm_single_sample = normalize_to_range(single_sample, -1, 1)
+                    # if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(norm_single_sample)):
+                    #     continue
+                    arr.append(single_sample)
+                self.raw_data_map[i] = np.array(arr)
+                cnt += len(arr)
+                self.cls_count.append(cnt)
+                self.X = np.vstack((self.X, self.raw_data_map[i]))
+                self.Y = np.hstack((self.Y, [i] * len(arr)))
+                pbar.set_description(desc=f"正在处理第{i}类, 总计共{cnt}个样本, shape={self.raw_data_map[i].shape}", refresh=True)
+        elif self.dname == 'aircraft':
+            for date_dir in os.listdir(self.dpath):
+                for file in os.path.join(self.dpath, date_dir):
+                    print(os.path.join(self.dpath, date_dir, file))
+        else:
+            raise ValueError(f"Unknown dataset name: {self.dname}")
 
         for k, samples in self.raw_data_map.items():
             print(f"the {k}-th class has {len(samples)} samples")
 
     def load_data_with_fft(self):
         cnt = 0
-        pbar = tqdm(range(self.num_class), leave=True, position=0, desc="读取原始数据文件...")
-        for i in pbar:
-            arr = []
-            dir_name = os.path.join(self.dpath, str(i))
-            for file_name in os.listdir(dir_name):
-                single_sample = pd.read_csv(os.path.join(dir_name, file_name), sep=' ', names=["time", "lng", "lat", "sog", "cog"]).drop(columns=['time']).to_numpy(dtype=np.float32)
-                # [seq_len, 4]
-                # 找到速度中第一个不为0的位置
-                # non_zero_index = np.argmax(single_sample[:, 2] != 0)
-                # end_index = min(non_zero_index + self.seq_len, len(single_sample))
-                # single_sample = single_sample[non_zero_index:end_index]
-                # cur_seq_len = single_sample.shape[0]
-                # if cur_seq_len < self.seq_len:
-                #     new_data = np.zeros((self.seq_len, single_sample.shape[1]))
-                #     new_data[:cur_seq_len, :] = single_sample
-                #     new_data[cur_seq_len:, 0:2] = single_sample[-1, 0:2]
-                #     single_sample = new_data
-                # norm_single_sample = normalize_to_range(single_sample, -1, 1)
-                # if np.all(single_sample[:, 2] == 0) or np.any(np.isnan(norm_single_sample)):
-                #     continue
-                single_sample = np.quantile(single_sample, np.linspace(0, 1, 40), axis=0)
-                fft_sample = np.abs(np.fft.fft(single_sample, axis=0))**2
-                arr.append(np.hstack((single_sample, fft_sample)))
-            self.raw_data_map[i] = np.array(arr)
-            cnt += len(arr)
-            self.cls_count.append(cnt)
-            self.X = np.vstack((self.X, self.raw_data_map[i]))
-            self.Y = np.hstack((self.Y, [i] * len(arr)))
-            pbar.set_description(desc=f"正在处理第{i}类, 总计共{cnt}个样本, shape={self.raw_data_map[i].shape}", refresh=True)
+        if self.dname == 'ais':
+            pbar = tqdm(range(self.num_class), leave=True, position=0, desc="读取原始数据文件...")
+            for i in pbar:
+                arr = []
+                dir_name = os.path.join(self.dpath, str(i))
+                for file_name in os.listdir(dir_name):
+                    single_sample = pd.read_csv(os.path.join(dir_name, file_name), sep=' ', names=["time", "lng", "lat", "sog", "cog"]).drop(columns=['time']).to_numpy(dtype=np.float32)
+                    # [seq_len, 4]
+                    narr = np.quantile(single_sample, np.linspace(0, 1, self.seq_len), axis=0)
+                    new_narr = np.abs(np.fft.fft(narr[:, (0, 1, 2, 3)], axis=0)) / self.seq_len
+                    arr.append(np.hstack((narr, new_narr)))
+                self.raw_data_map[i] = np.array(arr)
+                cnt += len(arr)
+                self.cls_count.append(cnt)
+                self.X = np.vstack((self.X, self.raw_data_map[i]))
+                self.Y = np.hstack((self.Y, [i] * len(arr)))
+                pbar.set_description(desc=f"正在处理第{i}类, 总计共{cnt}个样本, shape={self.raw_data_map[i].shape}", refresh=True)
+        elif self.dname == 'aircraft':
+            for k, v in self.gps_type.items():
+                self.raw_data_map[v] = []
+            for date_dir in os.listdir(self.dpath):
+                if not os.path.isdir(os.path.join(self.dpath, date_dir)):
+                    continue
+                for file in os.listdir(os.path.join(self.dpath, date_dir)):
+                    single_sample = pd.read_excel(os.path.join(self.dpath, date_dir, file), 
+                                                names=["id", "type", "time", "lng", "lat", "heading", "height", "nor_speed", "sky_speed", "east_speed"])
+                    label = self.gps_type[single_sample['type'][0]]
+                    single_sample.drop(columns=['id', 'type', 'time'], inplace=True)
+                    single_sample = single_sample.to_numpy(dtype=np.float32)
+                    num_splits = (len(single_sample) + self.interval - 1) // self.interval
+                    data_list = np.array_split(single_sample, num_splits)
+                    # data_return = np.ndarray((num_splits, self.seq_len, self.num_feature), dtype=np.float32)
+                    for i, data in enumerate(data_list):
+                        data = np.quantile(data, np.linspace(0, 1, self.seq_len), axis=0)
+                        new_data = np.abs(np.fft.fft(data, axis=0)) / self.seq_len
+                        # data = np.hstack((data, new_data))
+                        data = new_data
+                        self.raw_data_map[label].append(data)
+                    print(f"正在处理{file}, 总计共{num_splits}个样本")
+            
+            for k in self.raw_data_map.keys():
+                cnt += len(self.raw_data_map[k])
+                self.cls_count.append(cnt)
+                self.X = np.vstack((self.X, np.stack(self.raw_data_map[k])))
+                self.Y = np.hstack((self.Y, [k] * cnt))
+                    
+        else:
+            raise ValueError(f"Unknown dataset name: {self.dname}")
 
         for k, samples in self.raw_data_map.items():
             print(f"the {k}-th class has {len(samples)} samples")
@@ -159,11 +198,11 @@ if __name__ == '__main__':
     from config.deafault import get_cfg_defaults 
 
     cfg = get_cfg_defaults()
-    cfg.merge_from_file("./config/TFModel.yaml")
+    cfg.merge_from_file("./config/aircraft.yaml")
     cfg.freeze()
     print(cfg)
 
-    data_reader = AisDataReader(cfg.dataset.root_data_path, cfg.dataset.seen_class, cfg.dataset.unseen_class, cfg.dataset.seq_len, cfg.dataset.num_feature)
+    data_reader = AisDataReader(cfg.dataset.name, cfg.dataset.root_data_path, cfg.dataset.seen_class, cfg.dataset.unseen_class, cfg.dataset.seq_len, cfg.dataset.num_feature, cfg.dataset.ratio)
     data_reader.save(os.path.join(cfg.dataset.root_data_path))
     X_train, Y_train = data_reader.load_binary(os.path.join(cfg.dataset.root_data_path, 
                                                             f'train_seqLen_{cfg.dataset.seq_len}_rate_{cfg.dataset.ratio}_isGZSL_{cfg.dataset.is_gzsl}.pkl'))

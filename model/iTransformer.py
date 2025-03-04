@@ -15,7 +15,7 @@ class iTransformer(BasicModel):
 
     def __init__(self, configs, seen_class):
         super(iTransformer, self).__init__(seen_class, configs.d_center)
-        self.task_name = configs.task_name
+        self.task_name = "classification"
         self.seq_len = configs.seq_len
         self.pred_len = configs.pred_len
         self.output_attention = configs.output_attention

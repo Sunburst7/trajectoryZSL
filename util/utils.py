@@ -93,3 +93,27 @@ def initialize_weights(model):
         elif isinstance(m, nn.BatchNorm2d):
             init.ones_(m.weight)
             init.zeros_(m.bias)
+
+
+def draw_acc(train_acc, val_acc, test_acc, test_epochs, path):
+    # 创建图表并绘图
+    epochs = range(0, len(train_acc))
+    plt.figure(figsize=(10, 5))
+    plt.plot(epochs, train_acc, label='Training Accuracy', color='red')
+    plt.plot(epochs, val_acc, label='Validation Accuracy', color='blue')
+    plt.scatter(test_epochs, test_acc, label='Test Accuracy', color='green')
+
+    # 添加标题和坐标轴标签
+    plt.title('Accuracy over Epochs')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+
+    # 显示图例
+    plt.legend()
+
+    # 显示网格
+    plt.grid(True)
+
+    # 显示图表
+    plt.savefig(path)
+    plt.close()
