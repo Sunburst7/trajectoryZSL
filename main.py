@@ -18,8 +18,7 @@ from optuna import Trial
 from ais_dataset import AisDataReader
 from model.iTransformer import iTransformer
 from model.simple_cnn import SimpleCNN
-from loss.center_loss import CenterLoss
-from loss.margin_loss import MarginLoss
+from loss.center_lossv2 import CenterLoss
 from util.lookhead import Lookahead
 from util.mahalanobis import MahalanobisLayer
 from util.tsne import Tsne
@@ -114,49 +113,31 @@ class Trainer:
         self.savedir = savedir
         self.devices = devices
         self.model = model.to(devices[0])
-        self.tsne = Tsne(cfg.model.d_center, num_class=cfg.dataset.num_class,seen_class=cfg.dataset.seen_class, unseen_class=cfg.dataset.unseen_class)
+        self.tsne = Tsne(cfg.model.d_center, num_class=cfg.model.num_class,seen_class=cfg.dataset.seen_class, unseen_class=cfg.dataset.unseen_class)
         
         self.criterion_cls = nn.CrossEntropyLoss()  # cross entropy loss
-        self.criterion_cent = CenterLoss(num_classes=cfg.dataset.num_class, feat_dim=cfg.model.d_center)
-        self.criterion_margin = MarginLoss(cfg.model.margin, num_classes=cfg.dataset.num_class, feat_dim=cfg.model.d_center, centers=self.criterion_cent.get_centers())
+        self.proj_layer = nn.Linear(cfg.model.d_center, cfg.model.d_model, device=devices[0])
+        self.criterion_cent = CenterLoss(num_classes=cfg.dataset.num_class, 
+                                         feat_dim=cfg.model.d_center,
+                                         hidden_dim=cfg.model.d_model,
+                                         proj_layer=self.proj_layer, 
+                                         margin=cfg.model.margin, devices=devices[0])
         self.optimizer = Lookahead(optim.RAdam(model.parameters(), lr=cfg.model.learning_rate))
         self.scheduler = StepLR(self.optimizer, step_size=5, gamma=0.9)
-        self.optimizer_cent = Lookahead(optim.SGD(self.criterion_cent.parameters(), lr=cfg.model.learning_rate_cent), k=3)
+        self.optimizer_cent = optim.SGD(self.proj_layer.parameters(), lr=cfg.model.learning_rate_cent)
         self.early_stopping = EarlyStopping(patience=cfg.model.patience, verbose=True)
+        self.temperature = 0.1
+        self.threshold = 0.5
         # initialize_weights(model)
-    
-    def semantic_classify(self, centers: nn.Parameter, features: torch.Tensor):
-        """计算批样本对每个已知类的聚类中心的距离
 
-        Args:
-            centers (nn.Parameter): _description_
-            features (torch.Tensor): _description_
-
-        Returns:
-            torch.Tensor: 预测的标签
-        """
-        results = []
-        for bid in range(features.shape[0]):
-            predict_label = -1
-            min_dist = float('inf')
-            if_know = False
-            dists = self.model.module.calculate_distance(centers, features[bid], mode="euclidan")
-            for certain_label in cfg.dataset.seen_class:
-                # if dists[certain_label] < self.model.module.known_thresholds[certain_label]:
-                #     if_know = True
-                if dists[certain_label] < self.model.module.known_thresholds[certain_label] and dists[certain_label] < min_dist:
-                    if_know = True
-                    min_dist = dists[certain_label]
-                    predict_label = certain_label
-
-            results.append(predict_label)
-        return torch.Tensor(results).cuda()
+    def prob_classify(self, num_class, cls_logits, dists):
+        prob_known = torch.exp(-self.temperature * dists)
+        pass
 
     
     def run_epoch(self, model, loader, epoch:int, stage:Literal['train', 'valid', 'test']):
         criterion_cls = self.criterion_cls
         criterion_cent = self.criterion_cent
-        criterion_margin = self.criterion_margin
         optimizer = self.optimizer
         optimizer_cent = self.optimizer_cent
         scheduler = self.scheduler
@@ -169,50 +150,49 @@ class Trainer:
         model.train(is_train)
         pbar = tqdm(enumerate(loader), total=len(loader))
         losses = []
+        center_losses = []
         num_total, num_correct = 0, 0
         
         for i, (x, y) in pbar:
             x = x.to(devices[0])
             y = y.to(devices[0])
-            features, logits = model.module.classification(x, None)
-            loss = criterion_cls(logits, y)
-            if stage == 'train':
-                dummy_logits = logits.clone()
-                for i in range(dummy_logits.shape[0]):
-                    dummy_logits[i][y[i]] = -float('inf')
-                dummy_y = torch.ones_like(y) * self.config.dataset.unseen_class[0]
-                loss_dummy = criterion_cls(dummy_logits, dummy_y)
-                # loss_cent = criterion_cent(features, y)
-                # loss_margin = criterion_margin(features, y)
-                #   + loss_cent * eta_cent + loss_margin * eta_margin
-                loss += loss_dummy * cfg.model.beta
+            features, cls_logits = model.module.classification(x, None)
+            # self.tsne.append(features.cpu().detach().numpy(), y.cpu().detach().numpy())
+            loss = criterion_cls(cls_logits, y)
+            loss_cent, distmat = criterion_cent(features, y, is_train)
             losses.append(loss.item())
+            loss += loss_cent * eta_cent
+            center_losses.append(loss_cent.item())
+
             optimizer.zero_grad()
             optimizer_cent.zero_grad()
             num_total += x.shape[0]
+            self.prob_classify(cfg.dataset.num_class, cls_logits, distmat)
             if is_train:
-                num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
+                num_correct += torch.sum(torch.argmax(cls_logits, dim=-1) == y)
                 # self.model.module.batch_dist_saving(criterion_cent.get_centers(), features, y)
                 loss.backward()
                 nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=4.0)
                 optimizer.step()
+                optimizer_cent.step()
                 # print(f"epoch {epoch} {stage + 'ing'}... iter {i}: loss {loss.item():.5f}. lr {scheduler.get_last_lr()[0]:e} and {cfg.model.learning_rate_cent:e} acc {num_correct / num_total: .4f}")
-                pbar.set_description(f"epoch {epoch} {stage + 'ing'}... iter {i}: loss {np.average(losses):.5f}. lr {scheduler.get_last_lr()[0]:e} and {cfg.model.learning_rate_cent:e} acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch} {stage + 'ing'}... iter {i}: loss {np.average(losses):.5f}. c_loss {np.average(center_losses):.5f}. lr {scheduler.get_last_lr()[0]:e} and {cfg.model.learning_rate_cent:e} acc {num_correct / num_total: .4f}")
             else:
-                num_correct += torch.sum(torch.argmax(logits, dim=-1) == y)
+                num_correct += torch.sum(torch.argmax(cls_logits, dim=-1) == y)
                 # print(f"epoch {epoch} {stage + 'ing'}.... iter {i}: loss {loss.item():.5f}. acc {num_correct / num_total: .4f}")
-                pbar.set_description(f"epoch {epoch} {stage + 'ing'}.... iter {i}: loss {np.average(losses):.5f}. acc {num_correct / num_total: .4f}")
+                # pbar.set_description(f"epoch {epoch} {stage + 'ing'}.... iter {i}: loss {np.average(losses):.5f}. acc {num_correct / num_total: .4f}")
+                pbar.set_description(f"epoch {epoch} {stage + 'ing'}... iter {i}: loss {np.average(losses):.5f}. c_loss {np.average(center_losses):.5f}. lr {scheduler.get_last_lr()[0]:e} and {cfg.model.learning_rate_cent:e} acc {num_correct / num_total: .4f}")
                 
 
         if is_train:
             adjust_learning_rate(self.optimizer, epoch + 1, self.config.model)
             # scheduler.step()
             # scheduler_cent.step()
-            # 每个epoch更新已知类的阈值，清空保存的距离（聚类中心更新需要重新计算）
-            # self.model.module.update_thresholds()
-            self.model.module.dist_clearing()
+            # if epoch % 5 == 0:
+            #     self.tsne.cal_and_save(os.path.join(cfg.root_project_path, "temp", f"tsne_{epoch}.png"), stage)
+            # self.tsne.clear()
         
-        tqdm.write(f"epoch {epoch} {stage + 'ing'}....: loss {np.average(losses):.5f}. lr {scheduler.get_last_lr()[0]:e} and {cfg.model.learning_rate_cent:e}, acc {num_correct / num_total: .4f}")
+        tqdm.write(f"epoch {epoch} {stage + 'ing'}....: loss {np.average(losses):.5f}. c_loss {np.average(center_losses):.5f}. lr {scheduler.get_last_lr()[0]:e} and {cfg.model.learning_rate_cent:e}, acc {num_correct / num_total: .4f}")
         return num_correct / num_total
 
     def train(self):
@@ -239,7 +219,7 @@ class Trainer:
                     os.mkdir(save_childdir)
                 torch.save({"model_state_dict" : self.model.state_dict(), "known_thresholds": self.model.module.known_thresholds}, 
                     os.path.join(save_childdir, "model.pth"))
-                torch.save(self.criterion_cent.state_dict(), os.path.join(save_childdir, "center.pth"))
+                # torch.save(self.criterion_cent.state_dict(), os.path.join(save_childdir, "center.pth"))
 
             if epoch % 10 == 0:
                 test_epochs.append(epoch)
@@ -263,7 +243,7 @@ class Trainer:
         checkpoint = torch.load(os.path.join(save_childdir, "model.pth"), weights_only=True)
         self.model.load_state_dict(checkpoint["model_state_dict"])
         self.model.module.known_thresholds = checkpoint["known_thresholds"]
-        self.criterion_cent.load_state_dict(torch.load(os.path.join(save_childdir, "center.pth"), weights_only=True))
+        # self.criterion_cent.load_state_dict(torch.load(os.path.join(save_childdir, "center.pth"), weights_only=True))
         valid_acc = self.run_epoch(self.model, valid_loader, 0 , stage='valid')
         test_acc = self.run_epoch(self.model, test_loader, 0 , stage='test')
         return valid_acc, test_acc
@@ -310,7 +290,7 @@ if __name__ == '__main__':
     else:
         #best_params = {'batch_size': 8, 'n_heads': 8, 'e_layers': 5, 'd_model': 512, 'learning_rate': 0.0008287875374506874, 'beta': 0.9484880167535646}
         # best_params = {'batch_size': 16, 'n_heads': 8, 'e_layers': 7, 'd_model': 256, 'learning_rate': 0.0009922578876425468, 'beta': 0.76}
-        best_params = {'batch_size': 8, 'n_heads': 2, 'e_layers': 7, 'd_model': 256, 'learning_rate': 0.0005506033701685446, 'beta': 0.38864953894482024}
+        best_params = {'batch_size': 32, 'n_heads': 4, 'e_layers': 7, 'd_model': 256, 'learning_rate': 0.00024233339175292422, 'beta': 0.42724296145552965}
         for key, value in best_params.items(): # 使用字典更新Namespace对象
             setattr(cfg.model, key, value)
         cfg.model.d_ff = 4 * cfg.model.d_model
@@ -323,6 +303,6 @@ if __name__ == '__main__':
         t = Trainer(model, train_loader, valid_loader, test_loader, cfg, savedir=os.path.join(cfg.root_project_path, 'checkpoints'), devices=cfg.model.devices)
         setting = get_str_setting(cfg)
         print('>>>>>>>start training : {}>>>>>>>>>>>>>>>>>>>>>>>>>>'.format(setting))
-        # acc = t.train()
+        acc = t.train()
         print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
         t.test() 

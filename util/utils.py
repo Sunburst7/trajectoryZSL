@@ -101,7 +101,7 @@ def draw_acc(train_acc, val_acc, test_acc, test_epochs, path):
     plt.figure(figsize=(10, 5))
     plt.plot(epochs, train_acc, label='Training Accuracy', color='red')
     plt.plot(epochs, val_acc, label='Validation Accuracy', color='blue')
-    plt.scatter(test_epochs, test_acc, label='Test Accuracy', color='green')
+    plt.scatter(test_epochs, test_acc, label='U-Recall', color='green')
 
     # 添加标题和坐标轴标签
     plt.title('Accuracy over Epochs')

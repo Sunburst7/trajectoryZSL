@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.init as init
+from ..model.GaussinHead import GaussinHead
 
 class CenterLoss(nn.Module):
     """Center loss.
@@ -30,8 +31,10 @@ class CenterLoss(nn.Module):
         """
         batch_size = x.size(0)
         distmat = torch.pow(x, 2).sum(dim=1, keepdim=True).expand(batch_size, self.num_classes) + \
-                  torch.pow(self.centers, 2).sum(dim=1, keepdim=True).expand(self.num_classes, batch_size).t()
-        distmat.addmm_(x, self.centers.t(), beta=1, alpha=-2)
+                  torch.pow(self.centers, 2).sum(dim=1, keepdim=True).expand(self.num_classes, batch_size).t() # x^2 + centers^2
+        distmat.addmm_(x, self.centers.t(), beta=1, alpha=-2) # x^2 + centers^2 - 2x * centers
+        zeros = torch.zeros(distmat.shape).to(distmat.device)
+        margin_distmat = torch.maximum(zeros, self.margin - distmat)
 
         classes = torch.arange(self.num_classes).long()
         if self.use_gpu: classes = classes.cuda()
@@ -39,9 +42,11 @@ class CenterLoss(nn.Module):
         mask = labels.eq(classes.expand(batch_size, self.num_classes))
 
         dist = distmat * mask.float()
+        margin_dist = margin_distmat * mask.float()
         loss = dist.clamp(min=1e-12, max=1e+12).sum() / batch_size
+        margin_loss = margin_dist.clamp(min=1e-12, max=1e+12).sum() / batch_size
 
-        return loss
+        return loss, margin_loss
     
     def get_centers(self) -> nn.Parameter:
         return self.centers

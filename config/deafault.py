@@ -3,7 +3,7 @@ from yacs.config import CfgNode as CN
 _C = CN()
 _C.random_seed = 2024
 _C.root_project_path = "/data2/hh/workspace/trajectoryZSL"
-_C.search_param = True
+_C.search_param = False
 
 _C.dataset = CN()
 _C.dataset.name = "ais" 
@@ -13,26 +13,26 @@ _C.dataset.num_feature = 8
 _C.dataset.seq_len = 100
 _C.dataset.ratio = 0.8
 _C.dataset.is_gzsl = False
-_C.dataset.seen_class =  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
-_C.dataset.unseen_class = [10]
+_C.dataset.seen_class =  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+_C.dataset.unseen_class = [13]
 
 
 _C.model = CN()
-_C.model.eta_cent = 5e-2
-_C.model.eta_cls = 1
-_C.model.eta_margin = 0.1
+_C.model.osr = 'bc'
 _C.model.beta = 0.5
 _C.model.learning_rate = 0.001409257213017734
-_C.model.learning_rate_cent = 0.5
+_C.model.learning_rate_cent = 100
 _C.model.lradj = 'type3'
-_C.model.patience = 5
+_C.model.patience = 4
+_C.model.STD_COEF_1 = 1.5
+_C.model.STD_COEF_2 = 1.5
 
 _C.model.margin = 24
 _C.model.num_epoch = 100
 _C.model.batch_size = 16
 _C.model.wd = 0.1
 _C.model.dropout = 0.1
-_C.model.devices = [0, 1, 2, 3] # [i for i in range(torch.cuda.device_count())]
+_C.model.devices = [3] # [i for i in range(torch.cuda.device_count())]
 
 _C.model.task_name = "classification"
 _C.model.seq_len = _C.dataset.seq_len

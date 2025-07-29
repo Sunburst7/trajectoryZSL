@@ -2,14 +2,17 @@ dataset:
   name: 'aircraft'
   root_data_path: '/data2/hh/data/ais_gps'
   seq_len: 100
-  num_feature: 7
+  num_class: 8
+  num_feature: 8
   seen_class : [0, 1, 2, 3, 4, 5, 6]
   unseen_class : [7]
 
 model:
+  osr: 'dummy' # 'bc' or 'openmax'
+  patience: 4
   e_layers: 8
-  batch_size: 16
+  batch_size: 32
   d_model: 128
   d_ff: 120
-  learning_rate: 0.0009037400676189364
-  enc_in: 7 # = dataset.num_feature
+  learning_rate: 0.00024233339175292422
+  enc_in: 8 # = dataset.num_feature

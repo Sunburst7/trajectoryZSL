@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from typing import Dict
-from util.mahalanobis import MahalanobisLayer
 from tqdm import tqdm
 
 class BasicModel(nn.Module):
@@ -10,7 +9,6 @@ class BasicModel(nn.Module):
         super(BasicModel, self).__init__()
         self.known_thresholds:Dict[int, torch.Tensor] = {known_class : 0 for known_class in seen_class} # 可见类的距离阈值
         self.distances:Dict[int, list] = {known_class : [] for known_class in seen_class} # 每个可见类对应样本到聚类中心的距离
-        self.maha = MahalanobisLayer(features_dim, decay=0.99)
 
     def update_thresholds(self):
         distances = {k : torch.stack(v) for (k, v) in self.distances.items()} # self.distances[i] = (num_samples, num_class, 1)
@@ -36,9 +34,8 @@ class BasicModel(nn.Module):
         Returns:
             torch.Tensor: 特征向量到每个聚类中心的马氏距离 [num_class(seen), 1]
         """
-        if mode == "mahalanobis":
-            return torch.stack([self.maha(feature, center).squeeze(dim=0) for center in centers])
-        elif mode == "euclidan":
+
+        if mode == "euclidan":
             return torch.stack([torch.norm(feature - center, p=2) for center in centers])
         elif mode == "manhattan":
             return torch.stack([torch.norm(feature - center, p=1) for center in centers])
